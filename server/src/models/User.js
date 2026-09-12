@@ -95,7 +95,7 @@ const userSchema = new Schema(
     ownedItemIds: { type: [String], default: () => [] },
 
     equipped: {
-      theme: { type: String, default: 'obsidian' },
+      theme: { type: String, default: 'hogwarts' },
       title: { type: String, default: null },
       badge: { type: String, default: null },
     },
@@ -116,10 +116,9 @@ const userSchema = new Schema(
       // Minutes behind UTC, per `Date#getTimezoneOffset()`.
       timezoneOffset: { type: Number, default: 0 },
       reducedMotion: { type: Boolean, default: false },
-      // Light/dark preference. "system" defers to prefers-color-scheme, which
-      // is the right default: most people have already made this choice once,
-      // at the OS level, and do not want to make it again per site.
-      mode: { type: String, enum: ['system', 'light', 'dark'], default: 'system' },
+      // Dark is the default: the backdrop film is a castle at midnight and the
+      // whole palette is read off it. Players can still choose light or system.
+      mode: { type: String, enum: ['system', 'light', 'dark'], default: 'dark' },
     },
 
     onboardedAt: { type: Date, default: null },

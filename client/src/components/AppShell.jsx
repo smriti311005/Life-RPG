@@ -6,6 +6,8 @@ import { useAuth } from '../context/AuthContext';
 import { useGame } from '../context/GameContext';
 import { fmt } from '../lib/game';
 import { ModeToggle } from './ModeToggle';
+import { CinemaBackdrop } from './CinemaBackdrop';
+import { Crest } from './Enchant';
 
 const NAV = [
   { to: '/play', label: 'Quests', glyph: '⚔', mobile: true },
@@ -25,22 +27,16 @@ const MOBILE_NAV = NAV.filter((item) => item.mobile);
 
 function Mark() {
   return (
-    <span className="flex items-center gap-2.5">
-      <svg viewBox="0 0 32 32" className="h-7 w-7" aria-hidden="true">
-        <defs>
-          <linearGradient id="mark-grad" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stopColor="rgb(var(--c-primary))" />
-            <stop offset="100%" stopColor="rgb(var(--c-accent))" />
-          </linearGradient>
-        </defs>
-        <path
-          d="M16 3l2.9 8.1L27 14l-8.1 2.9L16 25l-2.9-8.1L5 14l8.1-2.9z"
-          fill="url(#mark-grad)"
+    <span className="group flex items-center gap-2.5">
+      {/* The crest turns on its own axis on hover — the smallest place in the
+          app to state that everything here has depth. */}
+      <span className="stage-near">
+        <Crest
+          id="shell-crest"
+          className="h-7 w-7 transition-transform duration-500 group-hover:[transform:rotateY(28deg)_rotateX(-8deg)]"
         />
-      </svg>
-      <span className="font-display text-base font-bold tracking-wide text-ink">
-        LIFE<span className="text-primary">RPG</span>
       </span>
+      <span className="spellcast text-base font-bold tracking-wide">Life RPG</span>
     </span>
   );
 }
@@ -164,118 +160,128 @@ export function AppShell({ children }) {
     }`;
 
   return (
-    <div className="flex min-h-[100dvh] flex-col">
-      <a href="#main" className="sr-only-focusable btn-primary fixed left-4 top-4 z-[100]">
-        Skip to content
-      </a>
+    <>
+      {/* The blurred cut, not the hero one: there is real content to read on
+          every route behind the shell, and a sharp castle competes with it. */}
+      <CinemaBackdrop variant="veil" candles />
 
-      {!online ? (
-        <div
-          role="status"
-          className="sticky top-0 z-50 bg-danger/90 px-4 py-1.5 text-center text-2xs font-semibold text-void"
-        >
-          Offline — changes will not be saved until you reconnect
-        </div>
-      ) : null}
+      <div className="above-film flex min-h-[100dvh] flex-col">
+        <a href="#main" className="sr-only-focusable btn-primary fixed left-4 top-4 z-[100]">
+          Skip to content
+        </a>
 
-      <header className="sticky top-0 z-40 border-b border-line bg-void/85 backdrop-blur-xl">
-        <div className="mx-auto flex h-14 max-w-6xl items-center justify-between gap-4 px-4 sm:px-6">
-          <NavLink to="/play" aria-label="Life RPG home">
-            <Mark />
-          </NavLink>
-
-          {/* Desktop nav */}
-          <nav aria-label="Main" className="hidden md:block">
-            <ul className="flex items-center gap-0.5">
-              {NAV.map((item) => (
-                <li key={item.to}>
-                  <NavLink to={item.to} className={navClass}>
-                    {({ isActive }) => (
-                      <>
-                        <span aria-hidden="true" className="text-xs opacity-70">
-                          {item.glyph}
-                        </span>
-                        {item.label}
-                        {isActive ? (
-                          <motion.span
-                            layoutId="nav-active"
-                            className="absolute inset-0 -z-10 rounded-xl border border-line bg-raised/70"
-                            transition={{ type: 'spring', stiffness: 420, damping: 34 }}
-                          />
-                        ) : null}
-                      </>
-                    )}
-                  </NavLink>
-                </li>
-              ))}
-            </ul>
-          </nav>
-
-          <div className="flex items-center gap-2.5">
-            {character ? (
-              <div className="hidden items-center gap-2 sm:flex">
-                <span className="numeric chip border-accent/35 text-accent">
-                  ◉ {fmt(character.gold)}
-                </span>
-                <span
-                  className={`numeric chip ${character.streak.current > 0 ? 'border-primary/35 text-primary' : ''}`}
-                  title={`Longest streak: ${character.streak.longest} days`}
-                >
-                  🔥 {character.streak.current}
-                </span>
-              </div>
-            ) : null}
-            <ModeToggle />
-            <AccountMenu />
+        {!online ? (
+          <div
+            role="status"
+            className="sticky top-0 z-50 bg-danger/90 px-4 py-1.5 text-center text-2xs font-semibold text-void"
+          >
+            Offline — changes will not be saved until you reconnect
           </div>
-        </div>
-      </header>
+        ) : null}
 
-      <main
-        id="main"
-        ref={mainRef}
-        tabIndex={-1}
-        className="mx-auto w-full max-w-6xl flex-1 px-4 pb-28 pt-6 outline-none sm:px-6 md:pb-16"
-      >
-        {children}
-      </main>
+        <header className="sticky top-0 z-40 border-b border-line bg-void/70 backdrop-blur-2xl">
+          <div className="mx-auto flex h-14 max-w-6xl items-center justify-between gap-4 px-4 sm:px-6">
+            <NavLink to="/play" aria-label="Life RPG home">
+              <Mark />
+            </NavLink>
 
-      {/* Mobile tab bar — thumb-reachable, with a safe-area inset for notched
-          phones so the last row is never under the home indicator. */}
-      <nav
-        aria-label="Main"
-        className="fixed inset-x-0 bottom-0 z-40 border-t border-line bg-void/95 pb-[env(safe-area-inset-bottom)] backdrop-blur-xl md:hidden"
-      >
-        <ul className="mx-auto flex max-w-md">
-          {MOBILE_NAV.map((item) => (
-            <li key={item.to} className="flex-1">
-              <NavLink
-                to={item.to}
-                className={({ isActive }) =>
-                  `flex flex-col items-center gap-1 py-2.5 text-[0.625rem] font-medium leading-tight transition-colors ${
-                    isActive ? 'text-primary' : 'text-faint'
-                  }`
-                }
-              >
-                {({ isActive }) => (
-                  <>
-                    <span aria-hidden="true" className="text-base leading-none">
-                      {item.glyph}
-                    </span>
-                    {item.label}
-                    <span
-                      aria-hidden="true"
-                      className={`h-0.5 w-6 rounded-full transition-colors ${
-                        isActive ? 'bg-primary' : 'bg-transparent'
-                      }`}
-                    />
-                  </>
-                )}
-              </NavLink>
-            </li>
-          ))}
-        </ul>
-      </nav>
-    </div>
+            {/* Desktop nav */}
+            <nav aria-label="Main" className="hidden md:block">
+              <ul className="flex items-center gap-0.5">
+                {NAV.map((item) => (
+                  <li key={item.to}>
+                    <NavLink to={item.to} className={navClass}>
+                      {({ isActive }) => (
+                        <>
+                          <span aria-hidden="true" className="text-xs opacity-70">
+                            {item.glyph}
+                          </span>
+                          {item.label}
+                          {isActive ? (
+                            <motion.span
+                              layoutId="nav-active"
+                              className="absolute inset-0 -z-10 rounded-xl border border-line bg-raised/70"
+                              transition={{ type: 'spring', stiffness: 420, damping: 34 }}
+                            />
+                          ) : null}
+                        </>
+                      )}
+                    </NavLink>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+
+            <div className="flex items-center gap-2.5">
+              {character ? (
+                <div className="hidden items-center gap-2 sm:flex">
+                  <span className="numeric chip border-accent/35 text-accent">
+                    ◉ {fmt(character.gold)}
+                  </span>
+                  <span
+                    className={`numeric chip ${character.streak.current > 0 ? 'border-primary/35 text-primary' : ''}`}
+                    title={`Longest streak: ${character.streak.longest} days`}
+                  >
+                    🔥 {character.streak.current}
+                  </span>
+                </div>
+              ) : null}
+              <ModeToggle />
+              <AccountMenu />
+            </div>
+          </div>
+        </header>
+
+        <main
+          id="main"
+          ref={mainRef}
+          tabIndex={-1}
+          className="stage w-full flex-1 px-4 pb-28 pt-6 outline-none sm:px-6 lg:px-8 md:pb-16"
+        >
+          {/* Keyed on the path so every navigation replays the entrance: the
+              page swings up out of depth rather than simply appearing. */}
+          <div key={location.pathname} className="gate-in layer-3d">
+            {children}
+          </div>
+        </main>
+
+        {/* Mobile tab bar — thumb-reachable, with a safe-area inset for notched
+            phones so the last row is never under the home indicator. */}
+        <nav
+          aria-label="Main"
+          className="fixed inset-x-0 bottom-0 z-40 border-t border-line bg-void/80 pb-[env(safe-area-inset-bottom)] backdrop-blur-2xl md:hidden"
+        >
+          <ul className="mx-auto flex max-w-md">
+            {MOBILE_NAV.map((item) => (
+              <li key={item.to} className="flex-1">
+                <NavLink
+                  to={item.to}
+                  className={({ isActive }) =>
+                    `flex flex-col items-center gap-1 py-2.5 text-[0.625rem] font-medium leading-tight transition-colors ${
+                      isActive ? 'text-primary' : 'text-faint'
+                    }`
+                  }
+                >
+                  {({ isActive }) => (
+                    <>
+                      <span aria-hidden="true" className="text-base leading-none">
+                        {item.glyph}
+                      </span>
+                      {item.label}
+                      <span
+                        aria-hidden="true"
+                        className={`h-0.5 w-6 rounded-full transition-colors ${
+                          isActive ? 'bg-primary' : 'bg-transparent'
+                        }`}
+                      />
+                    </>
+                  )}
+                </NavLink>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      </div>
+    </>
   );
 }

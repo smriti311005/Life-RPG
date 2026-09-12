@@ -24,6 +24,63 @@ function greeting() {
   return 'Good evening';
 }
 
+function TodayPulse({ character, tasks, openCount, doneToday }) {
+  const total = tasks.length;
+  const completionRate = total ? Math.round((doneToday / total) * 100) : 0;
+  const nextLevel = character?.xpToNext ? Math.round((character.xp / character.xpToNext) * 100) : 0;
+  const activeAttributes = character?.attributes?.filter((attribute) =>
+    tasks.some((task) => task.attribute === attribute.id && task.status !== 'done'),
+  ) ?? [];
+
+  return (
+    <section aria-label="Today at a glance" className="mb-6 grid gap-3 xl:grid-cols-[1.4fr_1fr_1fr_1.2fr]">
+      <div className="panel bg-aurora p-5 sm:p-6">
+        <div className="flex items-start justify-between gap-4">
+          <div>
+            <p className="text-2xs font-semibold uppercase tracking-[0.16em] text-primary">Today at a glance</p>
+            <h2 className="mt-2 text-2xl font-semibold text-ink">Make the next move count.</h2>
+          </div>
+          <span className="chip border-primary/30 text-primary">{completionRate}% complete</span>
+        </div>
+        <div className="mt-5 h-2 overflow-hidden rounded-full bg-void/60" aria-hidden="true">
+          <div className="h-full rounded-full bg-primary transition-all duration-500" style={{ width: `${completionRate}%` }} />
+        </div>
+        <p className="mt-2 text-sm text-muted">{doneToday} of {total} quests cleared today.</p>
+      </div>
+
+      <div className="panel p-5">
+        <p className="text-2xs font-semibold uppercase tracking-[0.16em] text-faint">Next level</p>
+        <p className="mt-3 numeric text-3xl font-semibold text-ink">{nextLevel}%</p>
+        <p className="mt-1 text-sm text-muted">{character ? Math.max(0, character.xpToNext - character.xp).toLocaleString() : 0} XP remaining</p>
+        <div className="mt-4 h-1.5 overflow-hidden rounded-full bg-void/60">
+          <div className="h-full rounded-full bg-accent transition-all duration-500" style={{ width: `${nextLevel}%` }} />
+        </div>
+      </div>
+
+      <div className="panel p-5">
+        <p className="text-2xs font-semibold uppercase tracking-[0.16em] text-faint">Streak energy</p>
+        <p className="mt-3 numeric text-3xl font-semibold text-ink">{character?.streak.current ?? 0} days</p>
+        <p className="mt-1 text-sm text-muted">{character?.streak.multiplier?.toFixed(2) ?? '1.00'}x reward multiplier</p>
+        <p className="mt-4 text-xs font-medium text-primary">{openCount ? 'One clear quest at a time.' : 'Your board is clear.'}</p>
+      </div>
+
+      <div className="panel p-5">
+        <p className="text-2xs font-semibold uppercase tracking-[0.16em] text-faint">Attributes in play</p>
+        {activeAttributes.length ? (
+          <div className="mt-3 flex flex-wrap gap-2">
+            {activeAttributes.map((attribute) => (
+              <span key={attribute.id} className="chip" style={{ borderColor: `var(--attr-${attribute.id})`, color: `var(--attr-${attribute.id})` }}>
+                <span aria-hidden="true">{attribute.glyph}</span> {attribute.short}
+              </span>
+            ))}
+          </div>
+        ) : <p className="mt-3 text-sm text-muted">Complete a quest to train an attribute.</p>}
+        <p className="mt-4 text-xs text-faint">Your real-world actions shape this sheet.</p>
+      </div>
+    </section>
+  );
+}
+
 export default function Quests() {
   const {
     character, tasks, today, status, loadError, reload,
@@ -126,7 +183,10 @@ export default function Quests() {
   }
 
   return (
-    <div className="grid gap-5 lg:grid-cols-[minmax(0,340px)_minmax(0,1fr)] lg:items-start lg:gap-6">
+    <div className="mx-auto max-w-[1600px]">
+      <TodayPulse character={character} tasks={tasks} openCount={openCount} doneToday={doneToday} />
+
+      <div className="grid gap-6 lg:grid-cols-[minmax(0,340px)_minmax(0,1fr)] lg:items-start xl:grid-cols-[minmax(0,380px)_minmax(0,1fr)]">
       <div className="lg:sticky lg:top-20">
         <HeroPanel character={character} loading={loading} />
       </div>
@@ -272,6 +332,8 @@ export default function Quests() {
           </ul>
         )}
       </section>
+
+      </div>
 
       {/* Composer */}
       <QuestComposer

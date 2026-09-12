@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="en" data-theme="obsidian">
+<html lang="en" data-theme="hogwarts">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta name="theme-color" content="#09070f" media="(prefers-color-scheme: dark)" />
-    <meta name="theme-color" content="#f3f2f8" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#060e18" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#eef0f5" media="(prefers-color-scheme: light)" />
 
     <title>Life RPG — Turn your habits into a character worth levelling</title>
     <meta
@@ -41,7 +41,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Cinzel+Decorative:wght@700;900&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap"
     />
 
     <script type="application/ld+json">
@@ -72,9 +72,12 @@
           var theme = localStorage.getItem('liferpg:theme');
           if (theme) root.setAttribute('data-theme', theme);
 
-          // "system" stores nothing, so the OS media query is left to decide.
+          // "system" stores the string 'system', and the OS media query is left
+          // to decide. A first-time visitor has stored nothing at all, and gets
+          // dark — the backdrop film is a castle at midnight.
           var mode = localStorage.getItem('liferpg:mode');
           if (mode === 'light' || mode === 'dark') root.setAttribute('data-mode', mode);
+          else if (!mode) root.setAttribute('data-mode', 'dark');
 
           if (localStorage.getItem('liferpg:reduced-motion') === 'true') {
             root.setAttribute('data-motion', 'reduced');

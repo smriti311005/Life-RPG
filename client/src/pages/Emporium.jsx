@@ -27,6 +27,11 @@ const SECTIONS = [
  * and accent from each palette's dark set — the blurb says so, and mixing one
  * light row in among four dark ones would misrepresent it. */
 const THEME_SWATCHES = {
+  hogwarts: ['#060e18', '#7cbfe3', '#ffb052'],
+  gryffindor: ['#180808', '#eb6258', '#f7c862'],
+  slytherin: ['#05120e', '#56d69e', '#c6d6dc'],
+  ravenclaw: ['#060c1c', '#82a4fa', '#d0965e'],
+  hufflepuff: ['#161206', '#f6ca4e', '#f2e4c8'],
   obsidian: ['#09070f', '#a782ff', '#f0c26a'],
   emberfall: ['#120906', '#ff8a4c', '#ffd08a'],
   tidewatch: ['#040f19', '#4cc9f0', '#8fe3d0'],

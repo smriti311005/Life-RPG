@@ -5,6 +5,7 @@ import { ApiError, asyncRoute } from '../middleware/error.js';
 import { serializeCharacter } from '../services/character.js';
 import {
   getShopItem,
+  getShopItems,
   getClasses,
   getClass,
   isClass,
@@ -118,13 +119,21 @@ router.patch(
     if (typeof data.timezoneOffset === 'number') user.settings.timezoneOffset = data.timezoneOffset;
 
     /* Equipping is a privilege check: you may only wear what you own. The
-     * default Obsidian theme and the empty title are always permitted. */
+     * free themes and the empty title are always permitted.
+     *
+     * "Free" is read off the catalogue rather than hard-coded to one id, so
+     * adding another no-cost palette does not also require editing this
+     * guard — and so an account created before the default changed can still
+     * wear the palette it was given. */
     if (data.equip) {
       const { theme, title, badge } = data.equip;
 
       if (theme !== undefined) {
         const owned = user.ownedItemIds.some((id) => getShopItem(id)?.payload?.theme === theme);
-        if (!owned && theme !== 'obsidian') {
+        const free = getShopItems().some(
+          (item) => item.price === 0 && item.payload?.theme === theme,
+        );
+        if (!owned && !free) {
           throw new ApiError(403, 'You do not own that theme yet.');
         }
         user.equipped.theme = theme;

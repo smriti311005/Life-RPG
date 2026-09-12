@@ -128,7 +128,7 @@ router.post(
       displayName: data.displayName || data.email.split('@')[0].slice(0, 40),
       gold: getConfig().startingGold,
       ownedItemIds: [...getDefaultOwnedItemIds()],
-      settings: { timezoneOffset: data.timezoneOffset ?? 0 },
+      settings: { timezoneOffset: data.timezoneOffset ?? 0, mode: 'light' },
     });
 
     await user.setPassword(data.password);

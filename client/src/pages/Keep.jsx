@@ -8,12 +8,22 @@ import { ModeSegmented } from '../components/ModeToggle';
 import { fmt } from '../lib/game';
 
 const THEME_LABELS = {
+  hogwarts: 'Midnight Castle',
+  gryffindor: 'Gryffindor',
+  slytherin: 'Slytherin',
+  ravenclaw: 'Ravenclaw',
+  hufflepuff: 'Hufflepuff',
   obsidian: 'Obsidian Veil',
   emberfall: 'Emberfall',
   tidewatch: 'Tidewatch',
   verdant: 'Verdant Hollow',
   goldleaf: 'Goldleaf Archive',
 };
+
+/* The palettes that cost nothing, so they are always listed as available.
+ * Obsidian is here because it was the default before Midnight Castle was, and
+ * accounts created back then were given it rather than the new one. */
+const FREE_THEMES = ['hogwarts', 'obsidian'];
 
 function Row({ label, value }) {
   return (
@@ -101,7 +111,7 @@ export default function Keep() {
 
   const ownedThemes = Object.keys(THEME_LABELS).filter(
     (theme) =>
-      theme === 'obsidian' ||
+      FREE_THEMES.includes(theme) ||
       character.ownedItemIds.some((itemId) => itemId === `theme-${theme}`),
   );
 

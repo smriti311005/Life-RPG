@@ -7,6 +7,7 @@ import { useGame } from '../context/GameContext';
 import { useToast } from '../context/ToastContext';
 import { LoadingVeil } from '../components/Primitives';
 import { CLASSES, ATTRIBUTE_MAP, attrColor } from '../lib/game';
+import { CinemaBackdrop } from '../components/CinemaBackdrop';
 
 const STEPS = ['Class', 'Focus', 'Ready'];
 
@@ -338,57 +339,60 @@ export default function Onboarding() {
   const klass = CLASSES.find((c) => c.id === chosenClass);
 
   return (
-    <div className="relative min-h-[100dvh] overflow-hidden px-4 py-10 sm:py-16">
-      <div aria-hidden="true" className="absolute inset-x-0 top-0 h-[460px] bg-aurora" />
+    <>
+      {/* Character creation is the ritual at the gate — it keeps the sharp cut. */}
+      <CinemaBackdrop variant="wide" candles />
 
-      <div className="relative mx-auto max-w-3xl">
-        <Rail step={step} />
+      <div className="above-film stage min-h-[100dvh] px-4 py-10 sm:py-16">
+        <div className="gate-in relative mx-auto max-w-3xl">
+          <Rail step={step} />
 
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={step}
-            initial={{ opacity: 0, x: 18 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -18 }}
-            transition={{ duration: 0.22 }}
-          >
-            {step === 0 ? (
-              <ClassStep
-                value={chosenClass}
-                onChange={setChosenClass}
-                onNext={() => setStep(1)}
-              />
-            ) : null}
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={step}
+              initial={{ opacity: 0, x: 18 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -18 }}
+              transition={{ duration: 0.22 }}
+            >
+              {step === 0 ? (
+                <ClassStep
+                  value={chosenClass}
+                  onChange={setChosenClass}
+                  onNext={() => setStep(1)}
+                />
+              ) : null}
 
-            {step === 1 ? (
-              <FocusStep
-                areas={areas ?? []}
-                value={focus}
-                onToggle={toggleFocus}
-                onNext={() => setStep(2)}
-                onBack={() => setStep(0)}
-              />
-            ) : null}
+              {step === 1 ? (
+                <FocusStep
+                  areas={areas ?? []}
+                  value={focus}
+                  onToggle={toggleFocus}
+                  onNext={() => setStep(2)}
+                  onBack={() => setStep(0)}
+                />
+              ) : null}
 
-            {step === 2 && klass ? (
-              <ReadyStep
-                klass={klass}
-                focusCount={focus.length}
-                onEnter={submit}
-                busy={busy}
-                error={error}
-                onBack={() => setStep(1)}
-              />
-            ) : null}
-          </motion.div>
-        </AnimatePresence>
+              {step === 2 && klass ? (
+                <ReadyStep
+                  klass={klass}
+                  focusCount={focus.length}
+                  onEnter={submit}
+                  busy={busy}
+                  error={error}
+                  onBack={() => setStep(1)}
+                />
+              ) : null}
+            </motion.div>
+          </AnimatePresence>
 
-        {error && step !== 2 ? (
-          <p role="alert" className="mt-6 text-center text-sm text-danger">
-            {error}
-          </p>
-        ) : null}
+          {error && step !== 2 ? (
+            <p role="alert" className="mt-6 text-center text-sm text-danger">
+              {error}
+            </p>
+          ) : null}
+        </div>
       </div>
-    </div>
+    </>
   );
 }

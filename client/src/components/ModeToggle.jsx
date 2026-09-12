@@ -35,7 +35,7 @@ export function ModeToggle() {
   const [systemIs, setSystemIs] = useState(resolveSystem);
   const wrapRef = useRef(null);
 
-  const mode = character?.settings?.mode ?? 'system';
+  const mode = character?.settings?.mode ?? 'dark';
   const effective = mode === 'system' ? systemIs : mode;
 
   // Follow the OS live: someone on "system" with a scheduled theme change
@@ -154,7 +154,7 @@ export function ModeToggle() {
 export function ModeSegmented() {
   const { character, updateProfile } = useGame();
   const toast = useToast();
-  const mode = character?.settings?.mode ?? 'system';
+  const mode = character?.settings?.mode ?? 'dark';
 
   return (
     <div role="radiogroup" aria-label="Appearance" className="grid grid-cols-3 gap-1.5">

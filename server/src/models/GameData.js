@@ -208,7 +208,7 @@ const gameConfigSchema = new Schema(
     },
 
     startingGold: { type: Number, default: 60 },
-    defaultOwnedItemIds: { type: [String], default: () => ['theme-obsidian'] },
+    defaultOwnedItemIds: { type: [String], default: () => ['theme-hogwarts'] },
   },
   base,
 );

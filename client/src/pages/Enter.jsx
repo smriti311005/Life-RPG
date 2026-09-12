@@ -5,6 +5,8 @@ import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
 import { TextField, LoadingVeil } from '../components/Primitives';
 import { signInWithGoogle, resetPassword, describeAuthError } from '../lib/firebase';
+import { CinemaBackdrop } from '../components/CinemaBackdrop';
+import { Crest } from '../components/Enchant';
 
 /**
  * Sign in and sign up.
@@ -181,156 +183,145 @@ export default function Enter() {
   };
 
   return (
-    <div className="relative grid min-h-[100dvh] place-items-center overflow-hidden px-4 py-10">
-      <div aria-hidden="true" className="absolute inset-x-0 top-0 h-[420px] bg-aurora" />
+    <>
+      {/* The gate to the castle gets the castle. */}
+      <CinemaBackdrop variant="wide" />
 
-      <div className="rise relative w-full max-w-md">
-        <Link
-          to="/"
-          className="mb-6 flex items-center justify-center gap-2.5 text-ink"
-          aria-label="Life RPG home"
-        >
-          <svg viewBox="0 0 32 32" className="h-8 w-8" aria-hidden="true">
-            <defs>
-              <linearGradient id="enter-mark" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0%" stopColor="rgb(var(--c-primary))" />
-                <stop offset="100%" stopColor="rgb(var(--c-accent))" />
-              </linearGradient>
-            </defs>
-            <path
-              d="M16 3l2.9 8.1L27 14l-8.1 2.9L16 25l-2.9-8.1L5 14l8.1-2.9z"
-              fill="url(#enter-mark)"
-            />
-          </svg>
-          <span className="font-display text-lg font-bold tracking-wide">
-            LIFE<span className="text-primary">RPG</span>
-          </span>
-        </Link>
+      <div className="above-film stage grid min-h-[100dvh] place-items-center px-4 py-10">
+        <div className="gate-in relative w-full max-w-md">
+          <Link
+            to="/"
+            className="mb-6 flex items-center justify-center gap-2.5 text-ink"
+            aria-label="Life RPG home"
+          >
+            <Crest id="enter-crest" className="h-8 w-8" />
+            <span className="spellcast text-lg font-bold tracking-wide">Life RPG</span>
+          </Link>
 
-        <div className="panel p-6 sm:p-7">
-          <h1 className="text-xl font-semibold text-ink">
-            {mode === 'signin' ? 'Return to your keep' : 'Roll a new character'}
-          </h1>
-          <p className="mt-1 text-sm text-muted">
-            {mode === 'signin'
-              ? 'Your progress is waiting exactly where you left it.'
-              : 'Level one starts at 55 XP. That is about two real things done today.'}
-          </p>
+          <div className="glass p-6 sm:p-7">
+            <h1 className="text-xl font-semibold text-ink">
+              {mode === 'signin' ? 'Return to your keep' : 'Roll a new character'}
+            </h1>
+            <p className="mt-1 text-sm text-muted">
+              {mode === 'signin'
+                ? 'Your progress is waiting exactly where you left it.'
+                : 'Level one starts at 55 XP. That is about two real things done today.'}
+            </p>
 
-          {googleAvailable ? (
-            <>
-              <button
-                type="button"
-                onClick={google}
-                disabled={Boolean(busy)}
-                className="btn-ghost mt-6 w-full py-3"
-              >
-                {busy === 'google' ? (
-                  'Opening Google…'
-                ) : (
-                  <>
-                    <GoogleMark />
-                    Continue with Google
-                  </>
-                )}
-              </button>
+            {googleAvailable ? (
+              <>
+                <button
+                  type="button"
+                  onClick={google}
+                  disabled={Boolean(busy)}
+                  className="btn-ghost mt-6 w-full py-3"
+                >
+                  {busy === 'google' ? (
+                    'Opening Google…'
+                  ) : (
+                    <>
+                      <GoogleMark />
+                      Continue with Google
+                    </>
+                  )}
+                </button>
 
-              <div className="my-5 flex items-center gap-3">
-                <span className="hairline" />
-                <span className="shrink-0 text-2xs uppercase tracking-wider text-faint">or</span>
-                <span className="hairline" />
-              </div>
-            </>
-          ) : (
-            <div className="mt-6" />
-          )}
+                <div className="my-5 flex items-center gap-3">
+                  <span className="hairline" />
+                  <span className="shrink-0 text-2xs uppercase tracking-wider text-faint">or</span>
+                  <span className="hairline" />
+                </div>
+              </>
+            ) : (
+              <div className="mt-6" />
+            )}
 
-          <form onSubmit={submit} noValidate className="space-y-4">
-            {formError ? (
-              <p
-                role="alert"
-                className="rounded-xl border border-danger/40 bg-danger/10 px-3.5 py-2.5 text-sm text-danger"
-              >
-                {formError}
-              </p>
-            ) : null}
+            <form onSubmit={submit} noValidate className="space-y-4">
+              {formError ? (
+                <p
+                  role="alert"
+                  className="rounded-xl border border-danger/40 bg-danger/10 px-3.5 py-2.5 text-sm text-danger"
+                >
+                  {formError}
+                </p>
+              ) : null}
 
-            {mode === 'signup' ? (
+              {mode === 'signup' ? (
+                <TextField
+                  id={`${id}-name`}
+                  label="Character name"
+                  placeholder="What should we call you?"
+                  value={form.displayName}
+                  onChange={set('displayName')}
+                  error={errors.displayName}
+                  maxLength={40}
+                  autoComplete="nickname"
+                />
+              ) : null}
+
               <TextField
-                id={`${id}-name`}
-                label="Character name"
-                placeholder="What should we call you?"
-                value={form.displayName}
-                onChange={set('displayName')}
-                error={errors.displayName}
-                maxLength={40}
-                autoComplete="nickname"
-              />
-            ) : null}
-
-            <TextField
-              id={`${id}-email`}
-              type="email"
-              label="Email"
-              placeholder="you@example.com"
-              value={form.email}
-              onChange={set('email')}
-              error={errors.email}
-              autoComplete="email"
-              required
-            />
-
-            <div>
-              <TextField
-                id={`${id}-password`}
-                type="password"
-                label="Password"
-                placeholder={mode === 'signup' ? 'A memorable passphrase' : '••••••••'}
-                value={form.password}
-                onChange={set('password')}
-                error={errors.password}
-                autoComplete={mode === 'signup' ? 'new-password' : 'current-password'}
-                aria-describedby={mode === 'signup' ? `${id}-meter` : undefined}
+                id={`${id}-email`}
+                type="email"
+                label="Email"
+                placeholder="you@example.com"
+                value={form.email}
+                onChange={set('email')}
+                error={errors.email}
+                autoComplete="email"
                 required
               />
 
-              {mode === 'signup' ? (
-                <PasswordMeter value={form.password} id={`${id}-meter`} />
-              ) : (
-                <button
-                  type="button"
-                  onClick={forgot}
-                  disabled={busy === 'reset'}
-                  className="mt-2 text-2xs font-medium text-primary hover:underline"
-                >
-                  {busy === 'reset' ? 'Sending…' : 'Forgotten your password?'}
-                </button>
-              )}
-            </div>
+              <div>
+                <TextField
+                  id={`${id}-password`}
+                  type="password"
+                  label="Password"
+                  placeholder={mode === 'signup' ? 'A memorable passphrase' : '••••••••'}
+                  value={form.password}
+                  onChange={set('password')}
+                  error={errors.password}
+                  autoComplete={mode === 'signup' ? 'new-password' : 'current-password'}
+                  aria-describedby={mode === 'signup' ? `${id}-meter` : undefined}
+                  required
+                />
 
-            <button type="submit" className="btn-primary w-full py-3" disabled={Boolean(busy)}>
-              {busy === 'email'
-                ? 'Just a moment…'
-                : mode === 'signin'
-                  ? 'Enter'
-                  : 'Create my character'}
-            </button>
-          </form>
+                {mode === 'signup' ? (
+                  <PasswordMeter value={form.password} id={`${id}-meter`} />
+                ) : (
+                  <button
+                    type="button"
+                    onClick={forgot}
+                    disabled={busy === 'reset'}
+                    className="mt-2 text-2xs font-medium text-primary hover:underline"
+                  >
+                    {busy === 'reset' ? 'Sending…' : 'Forgotten your password?'}
+                  </button>
+                )}
+              </div>
 
-          <p className="mt-5 text-center text-sm text-muted">
-            {mode === 'signin' ? "Haven't played before? " : 'Already have a character? '}
-            <button
-              type="button"
-              onClick={() => {
-                setMode(mode === 'signin' ? 'signup' : 'signin');
-                setErrors({});
-                setFormError(null);
-              }}
-              className="font-semibold text-primary hover:underline"
-            >
-              {mode === 'signin' ? 'Roll one now' : 'Sign in'}
-            </button>
-          </p>
+              <button type="submit" className="btn-primary w-full py-3" disabled={Boolean(busy)}>
+                {busy === 'email'
+                  ? 'Just a moment…'
+                  : mode === 'signin'
+                    ? 'Enter'
+                    : 'Create my character'}
+              </button>
+            </form>
+
+            <p className="mt-5 text-center text-sm text-muted">
+              {mode === 'signin' ? "Haven't played before? " : 'Already have a character? '}
+              <button
+                type="button"
+                onClick={() => {
+                  setMode(mode === 'signin' ? 'signup' : 'signin');
+                  setErrors({});
+                  setFormError(null);
+                }}
+                className="font-semibold text-primary hover:underline"
+              >
+                {mode === 'signin' ? 'Roll one now' : 'Sign in'}
+              </button>
+            </p>
         </div>
 
         <p className="mt-5 text-center text-2xs text-faint">
@@ -338,7 +329,8 @@ export default function Enter() {
             ← Back to the front page
           </Link>
         </p>
+        </div>
       </div>
-    </div>
+    </>
   );
 }

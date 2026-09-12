@@ -7,9 +7,10 @@
 
    Two independent axes:
 
-     data-theme  — which palette (obsidian, emberfall, tidewatch, verdant,
+     data-theme  — which palette (hogwarts, gryffindor, slytherin, ravenclaw,
+                   hufflepuff, obsidian, emberfall, tidewatch, verdant,
                    goldleaf). Bought in the Emporium.
-     data-mode   — light, dark, or absent (meaning: follow the OS).
+    data-mode   — light, dark, or absent (meaning: follow the OS).
 
    Every palette declares BOTH a --dark-* and a --lite-* set, then points the
    live --c-* tokens at one of them. Because the palettes all name their two
@@ -17,7 +18,160 @@
    rather than once per palette.
    ========================================================================== */
 
+/* --------------------------------------------------------------------------
+   Hogwarts — the default.
+
+   Read straight off the backdrop film: a midnight lake in teal-navy, castle
+   stone a shade above it, moonlight as the primary and candle-amber as the
+   accent, because those are the only two light sources in the shot. The light
+   set is the same castle at ten in the morning — parchment, stone and ink.
+   -------------------------------------------------------------------------- */
+
 :root,
+[data-theme='hogwarts'] {
+  --dark-void: 6 14 24;
+  --dark-surface: 11 26 42;
+  --dark-raised: 17 38 58;
+  --dark-line: 34 68 96;
+  --dark-ink: 231 240 249;
+  --dark-muted: 150 178 200;
+  --dark-faint: 101 129 153;
+  --dark-primary: 124 191 227;
+  --dark-primary-soft: 72 138 178;
+  --dark-accent: 255 176 82;
+  --dark-danger: 244 114 122;
+  --dark-success: 126 214 168;
+
+  --lite-void: 237 240 245;
+  --lite-surface: 255 255 255;
+  --lite-raised: 246 248 251;
+  --lite-line: 207 216 227;
+  --lite-ink: 15 30 44;
+  --lite-muted: 79 100 119;
+  --lite-faint: 119 140 159;
+  --lite-primary: 18 92 138;
+  --lite-primary-soft: 46 126 172;
+  --lite-accent: 158 96 12;
+  --lite-danger: 176 40 52;
+  --lite-success: 20 116 82;
+}
+
+/* The four houses. Each keeps its crest colours in the accent, and carries a
+   lightened house hue as the primary — a true scarlet or a true emerald is
+   too dark to sit under the near-black text that `btn-primary` puts on it. */
+
+[data-theme='gryffindor'] {
+  --dark-void: 24 8 8;
+  --dark-surface: 42 15 13;
+  --dark-raised: 58 22 18;
+  --dark-line: 96 40 30;
+  --dark-ink: 253 237 228;
+  --dark-muted: 202 158 142;
+  --dark-faint: 150 110 94;
+  --dark-primary: 235 98 88;
+  --dark-primary-soft: 190 60 52;
+  --dark-accent: 247 200 98;
+  --dark-danger: 255 128 120;
+  --dark-success: 142 212 152;
+
+  --lite-void: 250 242 238;
+  --lite-surface: 255 253 251;
+  --lite-raised: 255 248 244;
+  --lite-line: 228 206 196;
+  --lite-ink: 44 18 14;
+  --lite-muted: 116 76 62;
+  --lite-faint: 152 112 96;
+  --lite-primary: 168 32 26;
+  --lite-primary-soft: 200 66 56;
+  --lite-accent: 150 100 8;
+  --lite-danger: 176 40 40;
+  --lite-success: 34 112 62;
+}
+
+[data-theme='slytherin'] {
+  --dark-void: 5 18 14;
+  --dark-surface: 9 32 25;
+  --dark-raised: 14 46 36;
+  --dark-line: 27 77 59;
+  --dark-ink: 226 246 236;
+  --dark-muted: 142 184 164;
+  --dark-faint: 96 134 116;
+  --dark-primary: 86 214 158;
+  --dark-primary-soft: 40 156 110;
+  --dark-accent: 198 214 220;
+  --dark-danger: 255 124 124;
+  --dark-success: 122 226 170;
+
+  --lite-void: 238 246 242;
+  --lite-surface: 255 255 255;
+  --lite-raised: 246 252 249;
+  --lite-line: 200 222 212;
+  --lite-ink: 10 36 26;
+  --lite-muted: 66 102 84;
+  --lite-faint: 108 142 124;
+  --lite-primary: 10 112 78;
+  --lite-primary-soft: 34 146 106;
+  --lite-accent: 84 104 114;
+  --lite-danger: 176 40 46;
+  --lite-success: 20 116 80;
+}
+
+[data-theme='ravenclaw'] {
+  --dark-void: 6 12 28;
+  --dark-surface: 12 22 48;
+  --dark-raised: 18 32 68;
+  --dark-line: 33 55 107;
+  --dark-ink: 228 236 252;
+  --dark-muted: 148 166 208;
+  --dark-faint: 100 118 158;
+  --dark-primary: 130 164 250;
+  --dark-primary-soft: 66 102 200;
+  --dark-accent: 208 150 94;
+  --dark-danger: 250 122 130;
+  --dark-success: 122 216 172;
+
+  --lite-void: 238 241 250;
+  --lite-surface: 255 255 255;
+  --lite-raised: 246 248 253;
+  --lite-line: 204 213 234;
+  --lite-ink: 12 22 48;
+  --lite-muted: 72 88 124;
+  --lite-faint: 112 128 164;
+  --lite-primary: 32 66 168;
+  --lite-primary-soft: 68 104 200;
+  --lite-accent: 146 92 36;
+  --lite-danger: 176 40 52;
+  --lite-success: 20 112 78;
+}
+
+[data-theme='hufflepuff'] {
+  --dark-void: 22 18 6;
+  --dark-surface: 38 31 11;
+  --dark-raised: 54 44 16;
+  --dark-line: 89 73 29;
+  --dark-ink: 250 243 224;
+  --dark-muted: 198 180 134;
+  --dark-faint: 148 132 92;
+  --dark-primary: 246 202 78;
+  --dark-primary-soft: 200 158 44;
+  --dark-accent: 242 228 200;
+  --dark-danger: 250 128 118;
+  --dark-success: 150 212 142;
+
+  --lite-void: 250 246 232;
+  --lite-surface: 255 253 245;
+  --lite-raised: 255 251 240;
+  --lite-line: 226 214 180;
+  --lite-ink: 42 34 12;
+  --lite-muted: 110 94 56;
+  --lite-faint: 148 130 92;
+  --lite-primary: 150 106 8;
+  --lite-primary-soft: 186 142 34;
+  --lite-accent: 120 100 40;
+  --lite-danger: 172 44 40;
+  --lite-success: 42 112 58;
+}
+
 [data-theme='obsidian'] {
   --dark-void: 9 7 16;
   --dark-surface: 19 15 30;
@@ -162,9 +316,10 @@
 /* --------------------------------------------------------------------------
    Mode resolution
 
-   Dark is the resting state. The two blocks below switch a palette to its
-   light set — one for an explicit choice, one for "follow the OS" — and both
-   are written once for all five palettes.
+   Dark is the resting state, because the backdrop film is a castle at
+   midnight and the whole palette is read off it. The two blocks below switch
+   a palette to its light set — one for an explicit choice, one for "follow
+   the OS" — and both are written once for all ten palettes.
    -------------------------------------------------------------------------- */
 
 :root {
@@ -509,4 +664,517 @@ html[data-mode='light'] {
   animation-delay: 0ms !important;
   animation-iteration-count: 1 !important;
   transition-duration: 0.01ms !important;
+}
+
+/* ==========================================================================
+   The enchanted layer
+
+   Everything below exists to put the app *inside* the backdrop film rather
+   than on top of it: a fixed video plate, a mode-aware scrim that keeps text
+   legible over moving picture, and a CSS-3D stage the cards tilt on.
+
+   There is no WebGL here on purpose. Perspective, `translateZ` and
+   `preserve-3d` give real depth that the compositor handles on its own
+   thread, which a mid-range phone can hold at 60fps while a canvas renderer
+   cannot.
+   ========================================================================== */
+
+:root {
+  /* How hard the film is pushed down so text can sit on it. Dark mode wants
+     the castle visible; light mode has to bury it almost completely, because
+     near-black ink on a moonlit lake is unreadable at any opacity. */
+  --film-opacity: 0.88;
+  --film-scrim: 0.26;
+  --film-saturate: 1.08;
+  --panel-over-film: 0.86;
+}
+
+html[data-mode='light'] {
+  --film-opacity: 0.16;
+  --film-scrim: 0.9;
+  --film-saturate: 0.7;
+  --panel-over-film: 0.93;
+}
+
+@media (prefers-color-scheme: light) {
+  html:not([data-mode='dark']) {
+    --film-opacity: 0.16;
+    --film-scrim: 0.9;
+    --film-saturate: 0.7;
+    --panel-over-film: 0.93;
+  }
+}
+
+/* With a backdrop mounted, the page ground moves up to <html> so the fixed
+   film is not painted over by the body's own background. */
+html[data-backdrop='on'] {
+  background-color: rgb(var(--c-void));
+}
+html[data-backdrop='on'] body {
+  background-color: transparent;
+}
+
+/* --------------------------------------------------------------------------
+   Backdrop film
+   -------------------------------------------------------------------------- */
+
+.cinema {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  contain: layout paint style;
+}
+
+.cinema__plate {
+  position: absolute;
+  /* Overscanned so the parallax drift never exposes an edge. */
+  inset: -8%;
+  width: 116%;
+  height: 116%;
+  object-fit: cover;
+  opacity: var(--film-opacity);
+  filter: saturate(var(--film-saturate));
+  transform: translate3d(var(--pan-x, 0px), var(--pan-y, 0px), 0) scale(var(--pan-scale, 1));
+  transition: opacity 900ms ease;
+  will-change: transform;
+}
+
+/* The film sits directly on top of the still, both cut from the same frame,
+   so the crossfade is invisible and a failure to decode simply leaves the
+   still showing. */
+.cinema__plate--film {
+  z-index: 1;
+}
+
+.cinema__plate--film[data-ready='false'] {
+  opacity: 0;
+}
+
+/* Flat colour wash plus a vignette that pins attention to the middle. */
+.cinema__scrim {
+  position: absolute;
+  inset: 0;
+  background:
+    /* Corners down, middle left alone — the castle has to stay legible as a
+       picture, and a flat wash over the whole frame just makes it grey. */
+    radial-gradient(ellipse 130% 90% at 50% 8%, transparent 0%, rgb(var(--c-void) / 0.35) 82%),
+    /* The page keeps scrolling past the shot, so the bottom has to go fully
+       to ground or the content below floats over a half-lit lake. */
+    linear-gradient(to bottom, transparent 42%, rgb(var(--c-void) / 0.92) 88%),
+    linear-gradient(rgb(var(--c-void) / var(--film-scrim)), rgb(var(--c-void) / var(--film-scrim)));
+}
+
+/* Moonlight bloom, placed over the moon in the plate. */
+.cinema__moon {
+  position: absolute;
+  left: 18%;
+  top: 6%;
+  width: min(46vw, 520px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgb(var(--c-accent) / 0.16),
+    rgb(var(--c-primary) / 0.08) 45%,
+    transparent 70%
+  );
+  animation: moon-breathe 14s ease-in-out infinite;
+  transform: translate3d(var(--pan-x2, 0px), var(--pan-y2, 0px), 0);
+}
+
+/* Lake mist: two very slow counter-drifting bands. */
+.cinema__mist {
+  position: absolute;
+  inset: auto 0 -10% 0;
+  height: 55%;
+  background: linear-gradient(
+    to top,
+    rgb(var(--c-primary) / 0.1),
+    rgb(var(--c-primary) / 0.04) 45%,
+    transparent
+  );
+  filter: blur(28px);
+  animation: mist-drift 26s ease-in-out infinite;
+}
+
+.cinema__mist--far {
+  height: 38%;
+  animation-duration: 38s;
+  animation-direction: reverse;
+  opacity: 0.7;
+}
+
+@keyframes moon-breathe {
+  0%,
+  100% {
+    opacity: 0.75;
+    transform: translate3d(var(--pan-x2, 0px), var(--pan-y2, 0px), 0) scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: translate3d(var(--pan-x2, 0px), var(--pan-y2, 0px), 0) scale(1.06);
+  }
+}
+
+@keyframes mist-drift {
+  0%,
+  100% {
+    transform: translate3d(-4%, 0, 0);
+  }
+  50% {
+    transform: translate3d(4%, -6%, 0);
+  }
+}
+
+/* Everything that is not the film sits above it. */
+.above-film {
+  position: relative;
+  z-index: 10;
+}
+
+/* --------------------------------------------------------------------------
+   Floating candles
+
+   The Great Hall trick: candles distributed in z, each with an independently
+   timed flame. The wrapper owns the perspective; the candles only translate.
+   -------------------------------------------------------------------------- */
+
+.candles {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+  perspective: 900px;
+  perspective-origin: 50% 40%;
+  contain: layout paint style;
+}
+
+.candle {
+  position: absolute;
+  transform-style: preserve-3d;
+  animation: candle-float var(--candle-dur, 14s) ease-in-out infinite;
+  animation-delay: var(--candle-delay, 0s);
+  will-change: transform;
+}
+
+.candle__stick {
+  display: block;
+  width: 3px;
+  border-radius: 2px;
+  background: linear-gradient(
+    to bottom,
+    rgb(var(--c-ink) / 0.55),
+    rgb(var(--c-ink) / 0.12) 60%,
+    transparent
+  );
+}
+
+.candle__flame {
+  position: absolute;
+  left: 50%;
+  top: -7px;
+  width: 7px;
+  height: 11px;
+  margin-left: -3.5px;
+  border-radius: 50% 50% 45% 45%;
+  background: radial-gradient(
+    ellipse at 50% 70%,
+    rgb(255 246 214),
+    rgb(var(--c-accent)) 45%,
+    rgb(var(--c-accent) / 0) 75%
+  );
+  box-shadow:
+    0 0 12px 3px rgb(var(--c-accent) / 0.5),
+    0 0 34px 10px rgb(var(--c-accent) / 0.22);
+  animation: flicker var(--flicker-dur, 2.4s) ease-in-out infinite;
+  animation-delay: var(--candle-delay, 0s);
+}
+
+@keyframes candle-float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, var(--candle-z, 0px));
+  }
+  50% {
+    transform: translate3d(var(--candle-dx, 6px), var(--candle-dy, -22px), var(--candle-z, 0px));
+  }
+}
+
+@keyframes flicker {
+  0%,
+  100% {
+    transform: scale(1) skewX(0deg);
+    opacity: 0.92;
+  }
+  25% {
+    transform: scale(1.12, 0.94) skewX(-3deg);
+    opacity: 1;
+  }
+  55% {
+    transform: scale(0.92, 1.1) skewX(2deg);
+    opacity: 0.8;
+  }
+  80% {
+    transform: scale(1.06, 0.98) skewX(-1deg);
+    opacity: 1;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   3D stage
+   -------------------------------------------------------------------------- */
+
+.stage {
+  perspective: 1200px;
+  perspective-origin: 50% 50%;
+}
+
+.stage-near {
+  perspective: 720px;
+}
+
+.layer-3d {
+  transform-style: preserve-3d;
+}
+
+/* A card that leans toward the pointer. The rotation arrives as JS-set custom
+   properties, so the transform stays one compositor-friendly value. */
+.tilt {
+  transform-style: preserve-3d;
+  transform: rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg))
+    translate3d(0, var(--tilt-lift, 0px), var(--tilt-z, 0px));
+  transition: transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+/* Tilts as one plane. See the `flat` prop on Tilt3D for why a card with a
+   popover inside it must not open a 3D context. */
+.tilt--flat {
+  transform-style: flat;
+}
+
+/* While the pointer is actually moving, drop the easing — otherwise the card
+   trails the cursor by the full transition duration. */
+.tilt[data-live='true'] {
+  transition: transform 90ms linear;
+}
+
+/* The lit edge that sells the tilt: a highlight sliding opposite the
+   rotation, as if a candle hung above the card. */
+.tilt__glare {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: var(--glare, 0);
+  background: radial-gradient(
+    circle at var(--glare-x, 50%) var(--glare-y, 0%),
+    rgb(255 244 220 / 0.5),
+    transparent 55%
+  );
+  mix-blend-mode: soft-light;
+  transition: opacity 320ms ease;
+}
+
+/* Children can be pushed off the card face toward the viewer. */
+.pop-1 {
+  transform: translateZ(18px);
+}
+.pop-2 {
+  transform: translateZ(34px);
+}
+.pop-3 {
+  transform: translateZ(56px);
+}
+
+/* --------------------------------------------------------------------------
+   Surfaces over the film
+   -------------------------------------------------------------------------- */
+
+@layer components {
+  /* The panel treatment for anything sitting on the backdrop: a heavier blur
+     and a gilt hairline, so a card reads as leaded glass over the lake rather
+     than a grey rectangle. */
+  .glass {
+    @apply relative rounded-card border backdrop-blur-2xl;
+    border-color: rgb(var(--c-line) / 0.85);
+    background-color: rgb(var(--c-surface) / var(--panel-over-film));
+    box-shadow:
+      inset 0 1px 0 0 rgb(255 255 255 / 0.07),
+      0 26px 64px -30px rgb(0 0 0 / 0.85);
+  }
+
+  .glass::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    padding: 1px;
+    background: linear-gradient(
+      140deg,
+      rgb(var(--c-accent) / 0.45),
+      transparent 30%,
+      transparent 70%,
+      rgb(var(--c-primary) / 0.3)
+    );
+    /* Paints the gradient as a border only, not a fill. */
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+  }
+
+  /* Engraved title lettering, as on the reference. */
+  .spellcast {
+    @apply font-spell uppercase;
+    letter-spacing: 0.06em;
+    background: linear-gradient(
+      180deg,
+      rgb(var(--c-ink)),
+      rgb(var(--c-accent) / 0.92) 55%,
+      rgb(var(--c-primary-soft) / 0.85)
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: 0 0 40px rgb(var(--c-accent) / 0.28);
+  }
+
+  /* Small-caps body copy laid over the film, as in the reference stills. */
+  .incantation {
+    @apply font-display uppercase;
+    letter-spacing: 0.1em;
+    font-size: 0.8125rem;
+    line-height: 1.7;
+    color: rgb(var(--c-ink) / 0.92);
+    text-shadow: 0 1px 12px rgb(0 0 0 / 0.5);
+  }
+
+  html[data-mode='light'] .incantation {
+    text-shadow: none;
+    color: rgb(var(--c-ink));
+  }
+}
+
+@layer utilities {
+  /* Panels get a touch more body once there is moving picture behind them. */
+  html[data-backdrop='on'] .panel,
+  html[data-backdrop='on'] .panel-raised {
+    background-color: rgb(var(--c-surface) / var(--panel-over-film));
+  }
+
+  .preserve-3d {
+    transform-style: preserve-3d;
+  }
+
+  .backface-hidden {
+    backface-visibility: hidden;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Route entrance — the page swings in from depth
+   -------------------------------------------------------------------------- */
+
+@keyframes gate-in {
+  from {
+    opacity: 0;
+    transform: perspective(1200px) rotateX(9deg) translate3d(0, 26px, -90px);
+  }
+}
+
+.gate-in {
+  animation: gate-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: var(--rise-delay, 0ms);
+}
+
+/* --------------------------------------------------------------------------
+   Motion preferences, for the 3D layer specifically
+
+   The global reduced-motion block already freezes keyframes. These rules also
+   flatten the *resting* 3D transforms, so a reduced-motion player gets a plain
+   flat card rather than one frozen mid-tilt.
+   -------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .tilt,
+  .pop-1,
+  .pop-2,
+  .pop-3,
+  .candle,
+  .cinema__plate {
+    transform: none !important;
+  }
+  .candles {
+    display: none;
+  }
+}
+
+[data-motion='reduced'] .tilt,
+[data-motion='reduced'] .pop-1,
+[data-motion='reduced'] .pop-2,
+[data-motion='reduced'] .pop-3,
+[data-motion='reduced'] .candle,
+[data-motion='reduced'] .cinema__plate {
+  transform: none !important;
+}
+
+[data-motion='reduced'] .candles {
+  display: none;
+}
+
+/* --------------------------------------------------------------------------
+   Daylight
+
+   Candles and lake mist are night devices. Over a near-white ground the flame
+   loses its glow and the wick is just a dark speck, so the whole effect reads
+   as dust on the screen rather than the Great Hall. Light mode drops both and
+   keeps the film as a faint texture instead.
+   -------------------------------------------------------------------------- */
+
+html[data-mode='light'] .candles,
+html[data-mode='light'] .cinema__mist,
+html[data-mode='light'] .cinema__moon {
+  display: none;
+}
+
+@media (prefers-color-scheme: light) {
+  html:not([data-mode='dark']) .candles,
+  html:not([data-mode='dark']) .cinema__mist,
+  html:not([data-mode='dark']) .cinema__moon {
+    display: none;
+  }
+}
+
+/* The engraved gradient is tuned for light type on a dark ground. Inverted, it
+   needs to run dark-to-gold or the title washes out against parchment. */
+html[data-mode='light'] .spellcast {
+  background: linear-gradient(
+    180deg,
+    rgb(var(--c-ink)),
+    rgb(var(--c-primary)) 60%,
+    rgb(var(--c-accent))
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  text-shadow: none;
+}
+
+@media (prefers-color-scheme: light) {
+  html:not([data-mode='dark']) .spellcast {
+    background: linear-gradient(
+      180deg,
+      rgb(var(--c-ink)),
+      rgb(var(--c-primary)) 60%,
+      rgb(var(--c-accent))
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    text-shadow: none;
+  }
 }

@@ -80,7 +80,7 @@ export function GameProvider({ children }) {
     const root = document.documentElement;
     if (mode === 'light' || mode === 'dark') root.setAttribute('data-mode', mode);
     else root.removeAttribute('data-mode');
-    safeStore.set(MODE_KEY, mode ?? 'system');
+    safeStore.set(MODE_KEY, mode ?? 'dark');
   }, []);
 
   const applyMotion = useCallback((reduced) => {
@@ -94,7 +94,7 @@ export function GameProvider({ children }) {
     if (character?.equipped?.theme) applyTheme(character.equipped.theme);
     if (character?.settings) {
       applyMotion(character.settings.reducedMotion);
-      applyMode(character.settings.mode ?? 'system');
+      applyMode(character.settings.mode ?? 'dark');
     }
   }, [
     character?.equipped?.theme,
@@ -161,11 +161,16 @@ export function GameProvider({ children }) {
       setTasks([]);
       setStatus('idle');
       setIsNewCharacter(false);
+      // Signed out there is no character to read a preference from, so fall
+      // back to the last stored choice rather than hard-coding one — which
+      // would make the appearance setting unreachable on the public routes.
+      // A first-time visitor has nothing stored and gets the midnight default.
+      applyMode(safeStore.get(MODE_KEY) ?? 'dark');
       return;
     }
 
     load();
-  }, [user, checking, load]);
+  }, [user, checking, load, applyMode]);
 
   /* ------------------------------- task writes ------------------------------ */
 

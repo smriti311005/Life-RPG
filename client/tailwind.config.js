@@ -26,6 +26,9 @@ export default {
       },
       fontFamily: {
         display: ['Cinzel', 'Georgia', 'serif'],
+        // The engraved title face, kept separate from `display` so it is only
+        // paid for where a heading is actually set in it.
+        spell: ['"Cinzel Decorative"', 'Cinzel', 'Georgia', 'serif'],
         sans: ['Outfit', 'system-ui', '-apple-system', 'Segoe UI', 'sans-serif'],
         mono: ['"JetBrains Mono"', 'ui-monospace', 'SFMono-Regular', 'monospace'],
       },

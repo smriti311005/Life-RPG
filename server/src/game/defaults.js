@@ -247,18 +247,27 @@ export const ACHIEVEMENTS = [
 
   { id: 'first-purchase', name: 'Patron', description: 'Buy anything from the Emporium.', tier: 'bronze', group: 'Economy', metric: 'hasPurchased', target: 1, order: 40 },
   { id: 'gold-5000', name: 'Full Purse', description: 'Earn 5,000 gold in total.', tier: 'silver', group: 'Economy', metric: 'goldEarned', target: 5000, order: 41 },
-  { id: 'collector', name: 'Collector', description: 'Own all five palettes.', tier: 'gold', group: 'Economy', metric: 'themesOwned', target: 5, order: 42 },
+  { id: 'collector', name: 'Collector', description: 'Own five palettes.', tier: 'gold', group: 'Economy', metric: 'themesOwned', target: 5, order: 42 },
 
   { id: 'early-bird', name: 'Before the World Wakes', description: 'Complete a quest before 7am, ten times.', tier: 'silver', group: 'Devotion', metric: 'earlyCompletions', target: 10, order: 50 },
   { id: 'big-day', name: 'Tear Through It', description: 'Complete 10 quests in a single day.', tier: 'silver', group: 'Devotion', metric: 'busiestDayCount', target: 10, order: 51 },
 ];
 
 export const SHOP_ITEMS = [
-  { id: 'theme-obsidian', kind: 'theme', name: 'Obsidian Veil', description: 'The default dark of a quiet hall. Violet light on black glass.', price: 0, requiresLevel: 1, payload: { theme: 'obsidian' }, order: 0 },
-  { id: 'theme-emberfall', kind: 'theme', name: 'Emberfall', description: 'Banked coals and copper. For the ones who train before sunrise.', price: 450, requiresLevel: 3, payload: { theme: 'emberfall' }, order: 1 },
-  { id: 'theme-tidewatch', kind: 'theme', name: 'Tidewatch', description: 'Deep water, pale foam, a lantern on a long pier.', price: 600, requiresLevel: 5, payload: { theme: 'tidewatch' }, order: 2 },
-  { id: 'theme-verdant', kind: 'theme', name: 'Verdant Hollow', description: 'Moss over stone. Growth measured in seasons, not hours.', price: 750, requiresLevel: 8, payload: { theme: 'verdant' }, order: 3 },
-  { id: 'theme-goldleaf', kind: 'theme', name: 'Goldleaf Archive', description: 'Parchment by day, lamplight by night. The warm one, either way.', price: 1400, requiresLevel: 12, payload: { theme: 'goldleaf' }, order: 4 },
+  { id: 'theme-hogwarts', kind: 'theme', name: 'Midnight Castle', description: 'The lake at midnight, one moon and a thousand lit windows. The default.', price: 0, requiresLevel: 1, payload: { theme: 'hogwarts' }, order: 0 },
+  { id: 'theme-obsidian', kind: 'theme', name: 'Obsidian Veil', description: 'The old dark of a quiet hall. Violet light on black glass.', price: 0, requiresLevel: 1, payload: { theme: 'obsidian' }, order: 1 },
+
+  /* The four houses. Priced as a set — none is better than another, so none
+   * costs more than another, and the level gates are the same on all four. */
+  { id: 'theme-gryffindor', kind: 'theme', name: 'Gryffindor', description: 'Scarlet and gold. Nerve, and a certain disregard for the rules.', price: 500, requiresLevel: 4, payload: { theme: 'gryffindor' }, order: 2 },
+  { id: 'theme-slytherin', kind: 'theme', name: 'Slytherin', description: 'Emerald and silver. Ambition, and the patience to see it through.', price: 500, requiresLevel: 4, payload: { theme: 'slytherin' }, order: 3 },
+  { id: 'theme-ravenclaw', kind: 'theme', name: 'Ravenclaw', description: 'Blue and bronze. Wit beyond measure is a wizard’s greatest treasure.', price: 500, requiresLevel: 4, payload: { theme: 'ravenclaw' }, order: 4 },
+  { id: 'theme-hufflepuff', kind: 'theme', name: 'Hufflepuff', description: 'Gold and black. Patient, and unafraid of the boring parts.', price: 500, requiresLevel: 4, payload: { theme: 'hufflepuff' }, order: 5 },
+
+  { id: 'theme-emberfall', kind: 'theme', name: 'Emberfall', description: 'Banked coals and copper. For the ones who train before sunrise.', price: 450, requiresLevel: 3, payload: { theme: 'emberfall' }, order: 6 },
+  { id: 'theme-tidewatch', kind: 'theme', name: 'Tidewatch', description: 'Deep water, pale foam, a lantern on a long pier.', price: 600, requiresLevel: 5, payload: { theme: 'tidewatch' }, order: 7 },
+  { id: 'theme-verdant', kind: 'theme', name: 'Verdant Hollow', description: 'Moss over stone. Growth measured in seasons, not hours.', price: 750, requiresLevel: 8, payload: { theme: 'verdant' }, order: 8 },
+  { id: 'theme-goldleaf', kind: 'theme', name: 'Goldleaf Archive', description: 'Parchment by day, lamplight by night. The warm one, either way.', price: 1400, requiresLevel: 12, payload: { theme: 'goldleaf' }, order: 9 },
 
   { id: 'title-earlyriser', kind: 'title', name: 'the Early Riser', description: 'Worn by those who meet the morning before it meets them.', price: 300, requiresLevel: 2, payload: { title: 'the Early Riser' }, order: 10 },
   { id: 'title-unbroken', kind: 'title', name: 'the Unbroken', description: 'For a chain of days that never once slipped.', price: 900, requiresLevel: 6, payload: { title: 'the Unbroken' }, order: 11 },
@@ -296,5 +305,5 @@ export const CONFIG = {
     { level: 50, title: 'Ascendant' },
   ],
   startingGold: 60,
-  defaultOwnedItemIds: ['theme-obsidian'],
+  defaultOwnedItemIds: ['theme-hogwarts'],
 };
