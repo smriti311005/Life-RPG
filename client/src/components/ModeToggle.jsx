@@ -82,7 +82,7 @@ export function ModeToggle() {
         aria-expanded={open}
         aria-haspopup="menu"
         aria-label={`Appearance: ${MODES.find((m) => m.id === mode)?.label}. Change it.`}
-        className="grid h-9 w-9 place-items-center rounded-full border border-line bg-raised/60 text-sm text-muted transition-colors hover:border-primary/60 hover:text-ink"
+        className="grid h-10 w-10 place-items-center rounded-full border border-line bg-raised/60 text-sm text-muted transition-colors hover:border-primary/60 hover:text-ink sm:h-9 sm:w-9"
       >
         <AnimatePresence mode="wait" initial={false}>
           <motion.span

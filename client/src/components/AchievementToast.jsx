@@ -62,7 +62,7 @@ export function AchievementToast() {
                 Achievement unlocked
               </p>
               <p className="truncate text-sm font-semibold text-ink">{current.name}</p>
-              <p className="numeric text-2xs text-accent">+{current.reward} gold</p>
+              <p className="numeric text-2xs text-accent">+{current.reward} Galleons</p>
             </div>
 
             <button

@@ -6,6 +6,7 @@ import { useGame } from '../context/GameContext';
 import { useToast } from '../context/ToastContext';
 import { EmptyState, Skeleton } from '../components/Primitives';
 import { fmt } from '../lib/game';
+import { ThemeMedallion } from '../components/Crests';
 
 const SECTIONS = [
   {
@@ -44,117 +45,121 @@ function ItemCard({ item, gold, onBuy, onUse, onEquip, equipped, busy }) {
   const shortfall = item.price - gold;
 
   return (
+    // Framer owns the <li> for the layout animation; the tilt owns the card
+    // inside it. `flat` because the medallion opens its own 3D context and
+    // nesting one inside another makes the flip pivot around the wrong axis.
     <motion.li
       layout
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ type: 'spring', stiffness: 320, damping: 30 }}
-      className={`panel-raised flex flex-col p-4 transition-colors ${
-        equipped ? 'border-primary/50' : ''
-      }`}
+      className=""
     >
-      <div className="flex items-start justify-between gap-3">
-        <div className="min-w-0">
-          <h3 className="text-sm font-semibold text-ink">
-            {item.kind === 'title' ? (
-              <span className="font-display italic text-accent">{item.name}</span>
-            ) : (
-              item.name
-            )}
-            {item.payload?.badge ? (
-              <span aria-hidden="true" className="ml-1.5">
-                {item.payload.badge}
-              </span>
-            ) : null}
-          </h3>
-          <p className="mt-1 text-xs leading-relaxed text-muted">{item.description}</p>
+      <div
+        className={`panel-raised flex h-full flex-col p-4 transition-colors ${
+          equipped ? 'border-primary/50' : ''
+        }`}
+      >
+        <div className="flex items-start justify-between gap-3">
+          <div className="min-w-0">
+            <h3 className="text-sm font-semibold text-ink">
+              {item.kind === 'title' ? (
+                <span className="font-display italic text-accent">{item.name}</span>
+              ) : (
+                item.name
+              )}
+              {item.payload?.badge ? (
+                <span aria-hidden="true" className="ml-1.5">
+                  {item.payload.badge}
+                </span>
+              ) : null}
+            </h3>
+            <p className="mt-1 text-xs leading-relaxed text-muted">{item.description}</p>
+          </div>
+
+          {swatches ? (
+            <ThemeMedallion
+              theme={item.payload.theme}
+              swatches={swatches}
+              name={item.name}
+            />
+          ) : null}
         </div>
 
-        {swatches ? (
+        <div className="mt-3 flex flex-wrap items-center gap-1.5">
+          {item.locked ? (
+            <span className="chip border-line text-faint">Level {item.requiresLevel}</span>
+          ) : null}
+          {item.owned && item.charges ? (
+            <span className="chip border-primary/40 text-primary">×{item.charges} held</span>
+          ) : null}
+          {equipped ? <span className="chip border-primary/50 text-primary">Equipped</span> : null}
+        </div>
+
+        <div className="mt-auto flex items-center justify-between gap-3 pt-4">
           <span
-            aria-hidden="true"
-            className="flex shrink-0 overflow-hidden rounded-lg ring-1 ring-line"
+            className={`numeric text-sm font-semibold ${
+              item.price === 0 ? 'text-faint' : 'text-accent'
+            }`}
           >
-            {swatches.map((color) => (
-              <span key={color} className="h-8 w-4" style={{ background: color }} />
-            ))}
+            {item.price === 0 ? 'Free' : `◉ ${fmt(item.price)}`}
           </span>
-        ) : null}
-      </div>
 
-      <div className="mt-3 flex flex-wrap items-center gap-1.5">
-        {item.locked ? (
-          <span className="chip border-line text-faint">Level {item.requiresLevel}</span>
-        ) : null}
-        {item.owned && item.charges ? (
-          <span className="chip border-primary/40 text-primary">×{item.charges} held</span>
-        ) : null}
-        {equipped ? <span className="chip border-primary/50 text-primary">Equipped</span> : null}
-      </div>
-
-      <div className="mt-auto flex items-center justify-between gap-3 pt-4">
-        <span
-          className={`numeric text-sm font-semibold ${
-            item.price === 0 ? 'text-faint' : 'text-accent'
-          }`}
-        >
-          {item.price === 0 ? 'Free' : `◉ ${fmt(item.price)}`}
-        </span>
-
-        {/* The action adapts: buy, buy more, equip, or invoke. */}
-        {item.kind === 'consumable' && item.owned && item.charges > 0 ? (
-          <div className="flex gap-1.5">
-            <button
-              type="button"
-              className="btn-ghost px-3 py-1.5 text-xs"
-              disabled={busy || !item.purchasable}
-              onClick={() => onBuy(item)}
-            >
-              Buy more
-            </button>
-            <button
-              type="button"
-              className="btn-primary px-3 py-1.5 text-xs"
-              disabled={busy}
-              onClick={() => onUse(item)}
-            >
-              Invoke
-            </button>
-          </div>
-        ) : item.owned && !item.stackable ? (
-          equipped ? (
-            <span className="text-xs font-medium text-primary">In use</span>
+          {/* The action adapts: buy, buy more, equip, or invoke. */}
+          {item.kind === 'consumable' && item.owned && item.charges > 0 ? (
+            <div className="flex gap-1.5">
+              <button
+                type="button"
+                className="btn-ghost px-3 py-1.5 text-xs"
+                disabled={busy || !item.purchasable}
+                onClick={() => onBuy(item)}
+              >
+                Buy more
+              </button>
+              <button
+                type="button"
+                className="btn-primary px-3 py-1.5 text-xs"
+                disabled={busy}
+                onClick={() => onUse(item)}
+              >
+                Invoke
+              </button>
+            </div>
+          ) : item.owned && !item.stackable ? (
+            equipped ? (
+              <span className="text-xs font-medium text-primary">In use</span>
+            ) : (
+              <button
+                type="button"
+                className="btn-ghost px-3 py-1.5 text-xs"
+                disabled={busy}
+                onClick={() => onEquip(item)}
+              >
+                Equip
+              </button>
+            )
           ) : (
             <button
               type="button"
-              className="btn-ghost px-3 py-1.5 text-xs"
-              disabled={busy}
-              onClick={() => onEquip(item)}
+              className="btn-primary px-3 py-1.5 text-xs"
+              disabled={busy || !item.purchasable}
+              onClick={() => onBuy(item)}
+              title={
+                item.locked
+                  ? `Unlocks at level ${item.requiresLevel}`
+                  : shortfall > 0
+                    ? `${fmt(shortfall)} more Galleons needed`
+                    : undefined
+              }
             >
-              Equip
-            </button>
-          )
-        ) : (
-          <button
-            type="button"
-            className="btn-primary px-3 py-1.5 text-xs"
-            disabled={busy || !item.purchasable}
-            onClick={() => onBuy(item)}
-            title={
-              item.locked
-                ? `Unlocks at level ${item.requiresLevel}`
+              {item.locked
+                ? 'Locked'
                 : shortfall > 0
-                  ? `${fmt(shortfall)} more gold needed`
-                  : undefined
-            }
-          >
-            {item.locked
-              ? 'Locked'
-              : shortfall > 0
-                ? `Need ${fmt(shortfall)} ◉`
-                : 'Purchase'}
-          </button>
-        )}
+                  ? `Need ${fmt(shortfall)} ◉`
+                  : 'Purchase'}
+            </button>
+          )}
+        </div>
       </div>
     </motion.li>
   );

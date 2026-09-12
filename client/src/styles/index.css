@@ -504,12 +504,12 @@ html[data-mode='light'] {
 
 @layer components {
   .panel {
-    @apply relative rounded-card border border-line bg-surface/80 backdrop-blur-xl;
+    @apply relative rounded-card border border-line bg-surface;
     box-shadow: 0 0 0 1px rgb(var(--c-line) / 0.9), var(--c-shadow);
   }
 
   .panel-raised {
-    @apply relative rounded-card border border-line bg-raised/70 backdrop-blur-xl;
+    @apply relative rounded-card border border-line bg-raised;
     box-shadow: 0 0 0 1px rgb(var(--c-line) / 0.9), var(--c-shadow);
   }
 
@@ -738,7 +738,6 @@ html[data-backdrop='on'] body {
   filter: saturate(var(--film-saturate));
   transform: translate3d(var(--pan-x, 0px), var(--pan-y, 0px), 0) scale(var(--pan-scale, 1));
   transition: opacity 900ms ease;
-  will-change: transform;
 }
 
 /* The film sits directly on top of the still, both cut from the same frame,
@@ -857,7 +856,6 @@ html[data-backdrop='on'] body {
   transform-style: preserve-3d;
   animation: candle-float var(--candle-dur, 14s) ease-in-out infinite;
   animation-delay: var(--candle-delay, 0s);
-  will-change: transform;
 }
 
 .candle__stick {
@@ -947,7 +945,6 @@ html[data-backdrop='on'] body {
   transform: rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg))
     translate3d(0, var(--tilt-lift, 0px), var(--tilt-z, 0px));
   transition: transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
-  will-change: transform;
 }
 
 /* Tilts as one plane. See the `flat` prop on Tilt3D for why a card with a
@@ -999,15 +996,15 @@ html[data-backdrop='on'] body {
      and a gilt hairline, so a card reads as leaded glass over the lake rather
      than a grey rectangle. */
   .glass {
-    @apply relative rounded-card border backdrop-blur-2xl;
-    border-color: rgb(var(--c-line) / 0.85);
-    background-color: rgb(var(--c-surface) / var(--panel-over-film));
+    @apply relative rounded-card border;
+    border-color: rgb(var(--c-line));
+    background-color: rgb(var(--c-surface));
     box-shadow:
       inset 0 1px 0 0 rgb(255 255 255 / 0.07),
       0 26px 64px -30px rgb(0 0 0 / 0.85);
   }
 
-  .glass::after {
+  .glass--gilt::after {
     content: '';
     position: absolute;
     inset: 0;
@@ -1176,5 +1173,621 @@ html[data-mode='light'] .spellcast {
     -webkit-background-clip: text;
     background-clip: text;
     text-shadow: none;
+  }
+}
+
+/* ==========================================================================
+   The Great Hall
+
+   A real 3D box, not layered images moving at different speeds: the four
+   layers sit at different `translateZ` depths inside one `preserve-3d`
+   parent, and the parent turns toward the pointer. The parallax is then the
+   browser's own perspective projection.
+   ========================================================================== */
+
+.hall {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+  perspective: 1400px;
+  perspective-origin: 50% 45%;
+  contain: layout paint style;
+  /* The room is peripheral vision. Cleared out of the middle, it reads as
+     depth around the content; left in, its arches and banners cut straight
+     through whatever you were trying to read. */
+  -webkit-mask-image: radial-gradient(ellipse 82% 74% at 50% 52%, transparent 12%, #000 78%);
+  mask-image: radial-gradient(ellipse 82% 74% at 50% 52%, transparent 12%, #000 78%);
+}
+
+.hall__world {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  transform: rotateY(var(--yaw, 0deg)) rotateX(var(--pitch, 0deg));
+  transition: transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.hall__layer {
+  position: absolute;
+  inset: 0;
+  /* Pushing a layer back shrinks it by P / (P - z); scaling by (P - z) / P
+     cancels that exactly, so every layer covers the viewport and only its
+     motion gives the depth away. */
+  transform: translateZ(calc(var(--z) * 1px)) scale(calc((var(--p) - var(--z)) / var(--p)));
+  transform-origin: 50% 45%;
+}
+
+.hall__svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* The banners breathe, on staggered clocks so they are not a chorus line. */
+.hall__banner {
+  transform-origin: 50% 0;
+  animation: banner-sway 11s ease-in-out infinite;
+  animation-delay: var(--sway-delay, 0s);
+}
+
+@keyframes banner-sway {
+  0%,
+  100% {
+    transform: rotate(-0.7deg) translateY(0);
+  }
+  50% {
+    transform: rotate(0.7deg) translateY(5px);
+  }
+}
+
+/* Daylight and reduced motion both drop the hall: it is a night-time room,
+   and frozen mid-yaw it is just four misaligned drawings. */
+html[data-mode='light'] .hall {
+  display: none;
+}
+
+@media (prefers-color-scheme: light) {
+  html:not([data-mode='dark']) .hall {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hall {
+    display: none;
+  }
+}
+
+[data-motion='reduced'] .hall {
+  display: none;
+}
+
+/* ==========================================================================
+   The snitch
+
+   Flies a long, irregular circuit across the viewport in 3D, so it passes
+   both behind and in front of the plane the content sits on.
+   ========================================================================== */
+
+.snitch {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  pointer-events: none;
+  transform-style: preserve-3d;
+  animation: snitch-path 34s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+  contain: layout style;
+}
+
+.snitch__body {
+  display: block;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 32% 30%, #fff6dc, rgb(var(--c-accent)) 55%, #7a4d12);
+  box-shadow:
+    0 0 10px 2px rgb(var(--c-accent) / 0.7),
+    0 0 26px 8px rgb(var(--c-accent) / 0.25);
+}
+
+.snitch__wing {
+  position: absolute;
+  top: 3px;
+  width: 20px;
+  height: 8px;
+  border-radius: 50% 50% 50% 50% / 100% 100% 0 0;
+  background: linear-gradient(rgb(255 250 235 / 0.85), rgb(255 250 235 / 0.1));
+  animation: snitch-flap 140ms ease-in-out infinite alternate;
+}
+
+.snitch__wing--l {
+  right: 11px;
+  transform-origin: 100% 50%;
+}
+
+.snitch__wing--r {
+  left: 11px;
+  transform-origin: 0 50%;
+  scale: -1 1;
+}
+
+@keyframes snitch-flap {
+  from {
+    transform: rotateX(62deg) scaleY(0.4);
+  }
+  to {
+    transform: rotateX(-18deg) scaleY(1);
+  }
+}
+
+/* Deliberately not a smooth ellipse — a snitch that traces a clean circle
+   reads as a loading spinner. The z swings carry it through the content
+   plane, and the scale steps sell the distance. */
+@keyframes snitch-path {
+  0% {
+    transform: translate3d(-8vw, 74vh, -520px) scale(0.45);
+    opacity: 0;
+  }
+  6% {
+    opacity: 1;
+  }
+  18% {
+    transform: translate3d(26vw, 22vh, 120px) scale(1.15);
+  }
+  31% {
+    transform: translate3d(52vw, 61vh, -300px) scale(0.62);
+  }
+  44% {
+    transform: translate3d(31vw, 14vh, 60px) scale(1);
+  }
+  58% {
+    transform: translate3d(74vw, 44vh, -420px) scale(0.5);
+  }
+  71% {
+    transform: translate3d(88vw, 12vh, 90px) scale(1.1);
+  }
+  86% {
+    transform: translate3d(62vw, 78vh, -200px) scale(0.7);
+  }
+  95% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(108vw, 40vh, -560px) scale(0.42);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .snitch {
+    display: none;
+  }
+}
+
+[data-motion='reduced'] .snitch {
+  display: none;
+}
+
+/* ==========================================================================
+   Emporium: the flip card
+
+   Two faces of one card, back-to-back in 3D. The parent keeps the height, so
+   flipping never reflows the grid around it.
+   ========================================================================== */
+
+.flip {
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 620ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.flip[data-face='back'] {
+  transform: rotateY(180deg);
+}
+
+.flip__face {
+  backface-visibility: hidden;
+  /* Safari still needs the prefix to hide a reversed face. */
+  -webkit-backface-visibility: hidden;
+}
+
+.flip__face--back {
+  position: absolute;
+  inset: 0;
+  transform: rotateY(180deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flip {
+    transition-duration: 0.01ms;
+  }
+}
+
+/* ==========================================================================
+   The day plate — front page only
+
+   The painted castle in afternoon light, with dust and a veil on nearer
+   planes so the depth is a real projection rather than a drop shadow.
+
+   This hero deliberately does not follow the palette. It is cream type on a
+   painting in both light and dark mode, because the painting's own light
+   decides what is readable on it — not the app's ground colour.
+   ========================================================================== */
+
+.plate {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  contain: layout paint style;
+  /* Painted in before the image decodes, so the first frame is warm sky
+     rather than a white flash. */
+  background: #1d3a5c url('/media/hogwarts-day-tiny.jpg') center / cover no-repeat;
+}
+
+/* Parallax by translation, not rotation.
+ *
+ * This was a `preserve-3d` box rotating a few degrees toward the pointer, with
+ * the layers at different `translateZ`. It looked right and cost 45ms a frame:
+ * rotating and scaling a viewport-sized raster forces the compositor to
+ * re-rasterise it every frame. Translating a layer only moves an existing
+ * texture, which is close to free — measured 65ms -> 20ms with the plate
+ * removed entirely, and translation recovers almost all of that while keeping
+ * the parallax. Depth now comes from the layers moving at different rates,
+ * which is what the eye was reading anyway.
+ */
+.plate__world {
+  position: absolute;
+  inset: 0;
+}
+
+.plate__layer {
+  position: absolute;
+  /* Overscanned so the drift never exposes an edge. */
+  inset: -6%;
+  width: 112%;
+  height: 112%;
+  transform: translate3d(
+    calc(var(--px, 0) * var(--rate, 1) * 1px),
+    calc(var(--py, 0) * var(--rate, 1) * 1px),
+    0
+  );
+}
+
+.plate__layer--art {
+  --rate: 1;
+}
+
+.plate__layer--motes {
+  --rate: -2.6;
+}
+
+.plate__layer--veil {
+  --rate: 0;
+  background:
+    radial-gradient(ellipse 90% 70% at 50% 42%, transparent 30%, rgb(10 22 38 / 0.5) 100%),
+    linear-gradient(to bottom, rgb(10 22 38 / 0.34) 0%, transparent 26%, transparent 55%, rgb(8 18 32 / 0.72) 100%);
+}
+
+.plate__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.mote {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgb(255 246 220 / 0.95), rgb(255 226 160 / 0));
+  animation: mote-drift var(--md, 22s) ease-in-out infinite;
+  animation-delay: var(--mdelay, 0s);
+}
+
+@keyframes mote-drift {
+  0%,
+  100% {
+    opacity: 0.15;
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    opacity: 0.85;
+    transform: translate3d(26px, -46px, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .plate__world,
+  .plate__img,
+  .mote {
+    transform: none !important;
+    animation: none !important;
+  }
+  .plate__layer--art {
+    transform: none !important;
+  }
+  .mote {
+    display: none;
+  }
+}
+
+[data-motion='reduced'] .plate__world,
+[data-motion='reduced'] .plate__img,
+[data-motion='reduced'] .plate__layer--art {
+  transform: none !important;
+  animation: none !important;
+}
+
+[data-motion='reduced'] .mote {
+  display: none;
+}
+
+/* --------------------------------------------------------------------------
+   Front-page furniture
+
+   Cream on painting, in both modes. These are scoped to `.archive` so nothing
+   here leaks into the app behind the gate.
+   -------------------------------------------------------------------------- */
+
+.archive {
+  --ink-cream: 248 240 224;
+  --ink-gold: 216 178 110;
+  position: relative;
+  z-index: 10;
+  color: rgb(var(--ink-cream));
+}
+
+/* The top rule: platform number, wordmark, and the two account links. */
+.archive__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.35rem clamp(1rem, 4vw, 2.75rem);
+}
+
+.archive__sigil {
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+  color: rgb(var(--ink-gold));
+}
+
+.archive__eyebrow {
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: 0.68rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgb(var(--ink-cream) / 0.9);
+}
+
+/* The gold-hairline pill, as on the reference. */
+.archive__pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2.5rem;
+  padding: 0.55rem 1.15rem;
+  border-radius: 999px;
+  border: 1px solid rgb(var(--ink-gold) / 0.75);
+  background: rgb(12 24 40 / 0.28);
+  backdrop-filter: blur(6px);
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: rgb(var(--ink-cream));
+  transition:
+    background-color 220ms ease,
+    border-color 220ms ease,
+    transform 220ms ease;
+}
+
+.archive__pill:hover {
+  background: rgb(var(--ink-gold) / 0.2);
+  border-color: rgb(var(--ink-gold));
+  transform: translateY(-1px);
+}
+
+/* The wordmark. Cinzel at a large size with generous tracking is the whole
+   look; letter-spacing does more work here than the size does. */
+.archive__the {
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: clamp(0.8rem, 1.5vw, 1.05rem);
+  letter-spacing: 0.55em;
+  text-indent: 0.55em;
+  text-transform: uppercase;
+  color: rgb(var(--ink-cream) / 0.88);
+}
+
+.archive__title {
+  font-family: 'Cinzel', Georgia, serif;
+  font-weight: 600;
+  font-size: clamp(2.3rem, 7.2vw, 5.2rem);
+  line-height: 1.02;
+  letter-spacing: 0.04em;
+  color: rgb(var(--ink-cream));
+  text-shadow:
+    0 2px 30px rgb(10 20 36 / 0.55),
+    0 1px 3px rgb(10 20 36 / 0.5);
+}
+
+.archive__tagline {
+  font-family: 'Cinzel', Georgia, serif;
+  font-style: italic;
+  font-size: clamp(0.95rem, 1.9vw, 1.25rem);
+  color: rgb(var(--ink-cream) / 0.92);
+  text-shadow: 0 1px 18px rgb(10 20 36 / 0.6);
+}
+
+/* Hairline with a diamond struck through it. */
+.archive__rule {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.9rem;
+}
+
+.archive__rule::before,
+.archive__rule::after {
+  content: '';
+  height: 1px;
+  width: clamp(2.5rem, 9vw, 7rem);
+  background: linear-gradient(to right, transparent, rgb(var(--ink-gold) / 0.8), transparent);
+}
+
+/* The frosted gateway panel at the foot of the hero. */
+.archive__gate {
+  border-radius: 1.1rem;
+  border: 1px solid rgb(var(--ink-cream) / 0.22);
+  background: rgb(14 26 42 / 0.42);
+  backdrop-filter: blur(14px) saturate(1.1);
+  -webkit-backdrop-filter: blur(14px) saturate(1.1);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.12),
+    0 28px 70px -30px rgb(0 0 0 / 0.8);
+}
+
+.archive__gate-title {
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: clamp(0.95rem, 2vw, 1.15rem);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgb(var(--ink-cream));
+}
+
+.archive__gate-sub {
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: 0.68rem;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: rgb(var(--ink-cream) / 0.72);
+}
+
+.archive__enter {
+  display: grid;
+  place-items: center;
+  width: 2.9rem;
+  height: 2.9rem;
+  border-radius: 50%;
+  border: 1px solid rgb(var(--ink-gold) / 0.85);
+  color: rgb(var(--ink-cream));
+  background: rgb(12 24 40 / 0.35);
+  transition:
+    background-color 240ms ease,
+    transform 240ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.archive__enter:hover {
+  background: rgb(var(--ink-gold) / 0.28);
+  transform: translateY(-2px) scale(1.06);
+}
+
+/* The starburst that tops the wordmark and the gate. */
+.archive__star {
+  color: rgb(var(--ink-gold));
+  filter: drop-shadow(0 0 12px rgb(216 178 110 / 0.65));
+}
+
+/* --------------------------------------------------------------------------
+   The still plate — every route behind the gate
+
+   Same painting as the front page, held still and pushed a long way down. It
+   is there so the app feels like it is somewhere; it is not there to be
+   looked at, so it gives up the pointer tracking, the dust and most of its
+   contrast, and the content sits on solid ground above it.
+   -------------------------------------------------------------------------- */
+
+.plate--still .plate__layer--art {
+  --rate: 0;
+}
+
+.plate--still .plate__img {
+  /* Dimmed and desaturated, but not buried: the point is that you can tell
+     it is the same castle as the front page. Contrast is held down rather
+     than removed, and the veil below does the rest of the work. */
+  filter: saturate(0.62) brightness(0.6);
+}
+
+.plate--still .plate__layer--veil {
+  /* Clear at the top where the header sits, closing to solid ground by the
+     time the content column starts. */
+  background:
+    radial-gradient(ellipse 120% 90% at 50% -10%, rgb(var(--c-void) / 0.34), rgb(var(--c-void) / 0.86) 62%),
+    linear-gradient(to bottom, rgb(var(--c-void) / 0.5) 0%, rgb(var(--c-void) / 0.9) 46%, rgb(var(--c-void)) 78%);
+}
+
+html[data-mode='light'] .plate--still .plate__img {
+  filter: saturate(0.4) brightness(1.05);
+}
+
+html[data-mode='light'] .plate--still .plate__layer--veil {
+  background:
+    radial-gradient(ellipse 100% 80% at 50% 0%, rgb(var(--c-void) / 0.8), rgb(var(--c-void) / 0.96) 70%),
+    linear-gradient(to bottom, rgb(var(--c-void) / 0.9), rgb(var(--c-void)) 62%);
+}
+
+/* ==========================================================================
+   Touch and small screens
+
+   Deliberately outside @layer, so these win over the Tailwind utilities they
+   correct without an !important anywhere.
+   ========================================================================== */
+
+/* A chip used as a control was 26px tall. That is fine under a cursor and
+   too small under a thumb, so the interactive ones grow where the pointer is
+   coarse — the decorative chips beside them are left alone. */
+@media (pointer: coarse) {
+  button.chip,
+  a.chip,
+  [role='button'].chip {
+    min-height: 2.5rem;
+    padding-top: 0.55rem;
+    padding-bottom: 0.55rem;
+  }
+
+  /* Square icon buttons — the quest overflow menu is the common one — were
+     36px wide. min-width raises them without touching the wide buttons,
+     whose own width already exceeds it. */
+  .btn {
+    min-height: 2.75rem;
+    min-width: 2.5rem;
+  }
+}
+
+/* 11px is the label size across the app. It reads on a desktop monitor at
+   arm's length and does not on a phone, so the smallest step goes up one
+   notch below the `sm` breakpoint. */
+@media (max-width: 639px), (pointer: coarse) {
+  .text-2xs {
+    font-size: 0.75rem;
+    line-height: 1.1rem;
+  }
+}
+
+/* Long unbroken strings — an email on the account menu, a quest title with a
+   URL in it — are the usual cause of a phone scrolling sideways. */
+@media (max-width: 639px) {
+  h1,
+  h2,
+  h3,
+  p,
+  li,
+  dd,
+  dt {
+    overflow-wrap: anywhere;
+  }
+}
+
+/* A transient sideways scroll — an element mid-enter-animation, a wide table
+   for one frame — is invisible on a desktop and a lurch on a phone. `clip`
+   rather than `hidden`: hidden makes the body a scroll container, which
+   silently breaks every `position: sticky` inside it. */
+@media (max-width: 1023px) {
+  html,
+  body {
+    overflow-x: clip;
   }
 }

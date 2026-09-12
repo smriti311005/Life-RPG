@@ -8,26 +8,26 @@
 export const ATTRIBUTES = [
   {
     id: 'strength',
-    name: 'Strength',
-    short: 'STR',
-    glyph: '⚔',
-    blurb: 'The gym, heavy work, effort.',
+    name: 'Quidditch',
+    short: 'QUI',
+    glyph: '⚡',
+    blurb: 'The pitch, the gym, effort.',
     example: 'e.g. a heavy set, a hard session',
     hue: 4,
   },
   {
     id: 'intelligence',
-    name: 'Intelligence',
-    short: 'INT',
+    name: 'Arithmancy',
+    short: 'ARI',
     glyph: '✦',
-    blurb: 'Code, study, problems solved.',
+    blurb: 'Code, numbers, problems held.',
     example: 'e.g. a lesson, a bug fixed',
     hue: 265,
   },
   {
     id: 'agility',
-    name: 'Agility',
-    short: 'AGI',
+    name: 'Flying',
+    short: 'FLY',
     glyph: '➤',
     blurb: 'Running, moving, distance.',
     example: 'e.g. a 5k, a swim, the stairs',
@@ -35,17 +35,17 @@ export const ATTRIBUTES = [
   },
   {
     id: 'vitality',
-    name: 'Vitality',
-    short: 'VIT',
+    name: 'Herbology',
+    short: 'HRB',
     glyph: '❦',
-    blurb: 'Sleep, food, upkeep.',
+    blurb: 'Sleep, food, water, upkeep.',
     example: 'e.g. an early night, a real meal',
     hue: 145,
   },
   {
     id: 'wisdom',
-    name: 'Wisdom',
-    short: 'WIS',
+    name: 'Ancient Runes',
+    short: 'RUN',
     glyph: '☾',
     blurb: 'Reading, reflection, judgement.',
     example: 'e.g. ten pages, journalling',
@@ -53,10 +53,10 @@ export const ATTRIBUTES = [
   },
   {
     id: 'charisma',
-    name: 'Charisma',
-    short: 'CHA',
+    name: 'Care of Magical Creatures',
+    short: 'CMC',
     glyph: '✧',
-    blurb: 'People and bridges kept.',
+    blurb: 'People, messages kept, bridges built.',
     example: 'e.g. a call home, a reply owed',
     hue: 38,
   },
@@ -67,7 +67,7 @@ export const ATTRIBUTE_MAP = Object.fromEntries(ATTRIBUTES.map((a) => [a.id, a])
 export const CLASSES = [
   {
     id: 'warrior',
-    name: 'Warrior',
+    name: 'Gryffindor',
     glyph: '⚔',
     focus: 'strength',
     tagline: 'Strength through repetition.',
@@ -76,7 +76,7 @@ export const CLASSES = [
   },
   {
     id: 'scholar',
-    name: 'Scholar',
+    name: 'Ravenclaw',
     glyph: '✦',
     focus: 'intelligence',
     tagline: 'The long problem, held.',
@@ -85,7 +85,7 @@ export const CLASSES = [
   },
   {
     id: 'explorer',
-    name: 'Explorer',
+    name: 'Slytherin',
     glyph: '➤',
     focus: 'agility',
     tagline: 'Movement, distance, air.',
@@ -94,7 +94,7 @@ export const CLASSES = [
   },
   {
     id: 'guardian',
-    name: 'Guardian',
+    name: 'Hufflepuff',
     glyph: '❦',
     focus: 'vitality',
     tagline: 'The quiet upkeep of a life.',
@@ -108,9 +108,9 @@ export const CLASS_MAP = Object.fromEntries(CLASSES.map((c) => [c.id, c]));
 export const DIFFICULTIES = [
   { id: 'trivial', name: 'Trivial', xp: 12, gold: 4, hint: 'Two minutes.' },
   { id: 'easy', name: 'Easy', xp: 25, gold: 9, hint: 'A quarter hour.' },
-  { id: 'normal', name: 'Normal', xp: 45, gold: 18, hint: 'Real effort.' },
-  { id: 'hard', name: 'Hard', xp: 80, gold: 34, hint: 'You will feel it.' },
-  { id: 'epic', name: 'Epic', xp: 140, gold: 62, hint: 'The big one.' },
+  { id: 'normal', name: 'Standard', xp: 45, gold: 18, hint: 'Real effort.' },
+  { id: 'hard', name: 'N.E.W.T.', xp: 80, gold: 34, hint: 'You will feel it.' },
+  { id: 'epic', name: 'Triwizard', xp: 140, gold: 62, hint: 'The big one.' },
 ];
 
 export const DIFFICULTY_MAP = Object.fromEntries(DIFFICULTIES.map((d) => [d.id, d]));
@@ -148,12 +148,12 @@ export const CADENCES = [
 
 /** Used for the quest composer's suggestion chips on an empty board. */
 export const STARTER_QUESTS = [
-  { title: 'Walk for twenty minutes', attribute: 'agility', difficulty: 'easy', cadence: 'daily' },
-  { title: 'Read ten pages', attribute: 'wisdom', difficulty: 'easy', cadence: 'daily' },
-  { title: 'Drink a glass of water on waking', attribute: 'vitality', difficulty: 'trivial', cadence: 'daily' },
-  { title: 'Train for forty minutes', attribute: 'strength', difficulty: 'hard', cadence: 'daily' },
-  { title: 'Ship one real commit', attribute: 'intelligence', difficulty: 'normal', cadence: 'daily' },
-  { title: 'Message someone you have been meaning to', attribute: 'charisma', difficulty: 'normal', cadence: 'once' },
+  { title: 'Fly a lap of the grounds — twenty minutes', attribute: 'agility', difficulty: 'easy', cadence: 'daily' },
+  { title: 'Ten pages in the Hogwarts Library', attribute: 'wisdom', difficulty: 'easy', cadence: 'daily' },
+  { title: 'A glass of water on waking', attribute: 'vitality', difficulty: 'trivial', cadence: 'daily' },
+  { title: 'Quidditch training — forty minutes', attribute: 'strength', difficulty: 'hard', cadence: 'daily' },
+  { title: 'Cast one real commit', attribute: 'intelligence', difficulty: 'normal', cadence: 'daily' },
+  { title: 'Send an owl to someone you owe one', attribute: 'charisma', difficulty: 'normal', cadence: 'once' },
 ];
 
 /** Compact number formatting: 1,240 stays, 12,400 becomes 12.4k. */

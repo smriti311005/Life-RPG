@@ -2,7 +2,6 @@ import { memo, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 
 import { ATTRIBUTE_MAP, DIFFICULTY_MAP, attrColor } from '../lib/game';
-import { Tilt3D } from './Enchant';
 
 /* -------------------------------------------------------------------------- */
 /* Completion control                                                         */
@@ -146,13 +145,10 @@ export const QuestCard = memo(function QuestCard({
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, x: -24, transition: { duration: 0.18 } }}
       transition={{ type: 'spring', stiffness: 380, damping: 34 }}
-      className="stage-near"
+      className=""
     >
-      <Tilt3D
-        max={5}
-        lift={-3}
-        flat
-        className={`panel-raised group flex items-start gap-3.5 p-3.5 transition-[border-color,opacity] sm:p-4 ${
+      <div
+        className={`panel-raised group relative flex items-start gap-3.5 p-3.5 transition-[border-color,opacity] sm:p-4 ${
           done ? 'opacity-65' : 'hover:border-primary/40'
         }`}
       >
@@ -284,7 +280,7 @@ export const QuestCard = memo(function QuestCard({
             ) : null}
           </AnimatePresence>
         </div>
-      </Tilt3D>
+      </div>
     </motion.li>
   );
 });

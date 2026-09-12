@@ -78,7 +78,7 @@ export function ToastProvider({ children }) {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 8, scale: 0.96 }}
               transition={{ type: 'spring', stiffness: 420, damping: 32 }}
-              className={`pointer-events-auto flex w-full max-w-sm items-start gap-3 rounded-xl border bg-surface/95 px-4 py-3 shadow-rune backdrop-blur-xl ${TONE[toast.tone]}`}
+              className={`pointer-events-auto flex w-full max-w-sm items-start gap-3 rounded-xl border bg-surface px-4 py-3 shadow-rune ${TONE[toast.tone]}`}
             >
               <span aria-hidden="true" className="mt-0.5 text-base leading-none">
                 {ICONS[toast.tone]}

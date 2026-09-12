@@ -165,7 +165,7 @@ export function Modal({ open, onClose, title, description, children, size = 'max
       {open ? (
         <div className="fixed inset-0 z-[80] flex items-end justify-center p-0 sm:items-center sm:p-6">
           <motion.div
-            className="absolute inset-0 bg-void/80 backdrop-blur-sm"
+            className="absolute inset-0 bg-void/85"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}

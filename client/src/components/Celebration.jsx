@@ -105,7 +105,7 @@ export function Celebration({ event, onClose }) {
       : event.levelsGained > 1
         ? `${event.levelsGained} levels in one stroke.`
         : 'The next stretch of road opens up.'
-    : `The chain holds. +${event.streak.milestoneGold} gold for the discipline.`;
+    : `The chain holds. +${event.streak.milestoneGold} Galleons for the discipline.`;
 
   return (
     <AnimatePresence>
@@ -117,7 +117,7 @@ export function Celebration({ event, onClose }) {
         transition={{ duration: 0.25 }}
       >
         <motion.div
-          className="absolute inset-0 bg-void/85 backdrop-blur-md"
+          className="absolute inset-0 bg-void/95"
           onClick={onClose}
           aria-hidden="true"
         />

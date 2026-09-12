@@ -53,15 +53,15 @@ function Rail({ step }) {
 function ClassStep({ value, onChange, onNext }) {
   return (
     <div>
-      <h1 className="text-center font-display text-3xl font-bold">Choose your class</h1>
+      <h1 className="spellcast text-center text-3xl">The Sorting</h1>
       <p className="mx-auto mt-2 max-w-md text-center text-sm text-muted">
-        Your class grants a permanent <strong className="text-ink">+25% affinity</strong> in one
-        attribute, and two free levels in it to start. Pick the one that matches what you
-        actually want to become — it cannot be changed later.
+        Your house grants a permanent <strong className="text-ink">+25% affinity</strong> in one
+        discipline, and two free levels in it to start. Choose the one that matches what you
+        actually want to become — the Hat does not offer second thoughts.
       </p>
 
       <fieldset className="mt-8">
-        <legend className="sr-only">Character class</legend>
+        <legend className="sr-only">Your Hogwarts house</legend>
         <div className="grid gap-3 sm:grid-cols-2">
           {CLASSES.map((klass) => {
             const selected = value === klass.id;

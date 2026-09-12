@@ -33,12 +33,12 @@ function TodayPulse({ character, tasks, openCount, doneToday }) {
   ) ?? [];
 
   return (
-    <section aria-label="Today at a glance" className="mb-6 grid gap-3 xl:grid-cols-[1.4fr_1fr_1fr_1.2fr]">
-      <div className="panel bg-aurora p-5 sm:p-6">
+    <section aria-label="Today at a glance" className="mb-6 grid grid-cols-2 gap-3 xl:grid-cols-[1.4fr_1fr_1fr_1.2fr]">
+      <div className="panel col-span-2 bg-aurora p-4 sm:p-6 xl:col-span-1">
         <div className="flex items-start justify-between gap-4">
           <div>
             <p className="text-2xs font-semibold uppercase tracking-[0.16em] text-primary">Today at a glance</p>
-            <h2 className="mt-2 text-2xl font-semibold text-ink">Make the next move count.</h2>
+            <h2 className="mt-2 text-lg font-semibold text-ink sm:text-2xl">Make the next move count.</h2>
           </div>
           <span className="chip border-primary/30 text-primary">{completionRate}% complete</span>
         </div>
@@ -48,23 +48,23 @@ function TodayPulse({ character, tasks, openCount, doneToday }) {
         <p className="mt-2 text-sm text-muted">{doneToday} of {total} quests cleared today.</p>
       </div>
 
-      <div className="panel p-5">
+      <div className="panel p-4 sm:p-5">
         <p className="text-2xs font-semibold uppercase tracking-[0.16em] text-faint">Next level</p>
-        <p className="mt-3 numeric text-3xl font-semibold text-ink">{nextLevel}%</p>
+        <p className="mt-3 numeric text-2xl font-semibold text-ink sm:text-3xl">{nextLevel}%</p>
         <p className="mt-1 text-sm text-muted">{character ? Math.max(0, character.xpToNext - character.xp).toLocaleString() : 0} XP remaining</p>
         <div className="mt-4 h-1.5 overflow-hidden rounded-full bg-void/60">
           <div className="h-full rounded-full bg-accent transition-all duration-500" style={{ width: `${nextLevel}%` }} />
         </div>
       </div>
 
-      <div className="panel p-5">
+      <div className="panel p-4 sm:p-5">
         <p className="text-2xs font-semibold uppercase tracking-[0.16em] text-faint">Streak energy</p>
-        <p className="mt-3 numeric text-3xl font-semibold text-ink">{character?.streak.current ?? 0} days</p>
+        <p className="mt-3 numeric text-2xl font-semibold text-ink sm:text-3xl">{character?.streak.current ?? 0} days</p>
         <p className="mt-1 text-sm text-muted">{character?.streak.multiplier?.toFixed(2) ?? '1.00'}x reward multiplier</p>
         <p className="mt-4 text-xs font-medium text-primary">{openCount ? 'One clear quest at a time.' : 'Your board is clear.'}</p>
       </div>
 
-      <div className="panel p-5">
+      <div className="panel col-span-2 p-4 sm:p-5 xl:col-span-1">
         <p className="text-2xs font-semibold uppercase tracking-[0.16em] text-faint">Attributes in play</p>
         {activeAttributes.length ? (
           <div className="mt-3 flex flex-wrap gap-2">
@@ -186,12 +186,12 @@ export default function Quests() {
     <div className="mx-auto max-w-[1600px]">
       <TodayPulse character={character} tasks={tasks} openCount={openCount} doneToday={doneToday} />
 
-      <div className="grid gap-6 lg:grid-cols-[minmax(0,340px)_minmax(0,1fr)] lg:items-start xl:grid-cols-[minmax(0,380px)_minmax(0,1fr)]">
-      <div className="lg:sticky lg:top-20">
+      <div className="flex flex-col gap-6 lg:grid lg:grid-cols-[minmax(0,340px)_minmax(0,1fr)] lg:items-start xl:grid-cols-[minmax(0,380px)_minmax(0,1fr)]">
+      <div className="order-2 lg:order-1 lg:sticky lg:top-20">
         <HeroPanel character={character} loading={loading} />
       </div>
 
-      <section aria-labelledby="quests-heading" className="min-w-0">
+      <section aria-labelledby="quests-heading" className="order-1 min-w-0 lg:order-2">
         <div className="mb-4 flex flex-wrap items-end justify-between gap-3">
           <div>
             <p className="text-2xs font-semibold uppercase tracking-[0.16em] text-faint">
@@ -352,7 +352,7 @@ export default function Quests() {
         open={Boolean(confirmDelete)}
         onClose={() => setConfirmDelete(null)}
         title="Strike this quest from the log?"
-        description="The XP and gold you already earned from it are yours to keep. The quest itself is gone for good."
+        description="The experience and Galleons you already earned from it are yours to keep. The quest itself is gone for good."
         size="max-w-md"
       >
         <p className="rounded-xl border border-line bg-void/50 px-3.5 py-3 text-sm text-ink">
@@ -383,9 +383,9 @@ export default function Quests() {
         <ul className="space-y-3 text-sm text-muted">
           {[
             ['⚔', 'Post quests for things you actually mean to do. Each one names an attribute it trains.'],
-            ['★', 'Completing a quest pays XP and gold. Levels get more expensive as you climb.'],
+            ['★', 'Completing a quest pays experience, Galleons and House Points. Levels get more expensive as you climb.'],
             ['🔥', 'Finish something every day to build a streak — it multiplies every reward you earn.'],
-            ['◉', 'Spend gold in the Emporium on themes, titles and badges for your keep.'],
+            ['◉', 'Spend Galleons in Diagon Alley on house palettes, titles and provisions.'],
           ].map(([glyph, text]) => (
             <li key={text} className="flex gap-3">
               <span aria-hidden="true" className="mt-0.5 text-primary">

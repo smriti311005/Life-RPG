@@ -2,7 +2,6 @@ import { motion } from 'framer-motion';
 
 import { XpBar, LevelRing, Skeleton } from './Primitives';
 import { attrColor, fmt, pct } from '../lib/game';
-import { Tilt3D } from './Enchant';
 
 /* -------------------------------------------------------------------------- */
 /* Avatar                                                                     */
@@ -122,18 +121,9 @@ export function HeroPanel({ character, loading }) {
     // `overflow-hidden` is gone deliberately: it forces `transform-style: flat`
     // on whatever carries it, which would flatten the avatar back onto the
     // card face. The aurora wash is a background, so nothing needed clipping.
-    <Tilt3D
-      as="section"
-      aria-labelledby="hero-heading"
-      max={4}
-      lift={-4}
-      surface="panel bg-aurora"
-      className="p-5 sm:p-6"
-    >
+    <section aria-labelledby="hero-heading" className="panel p-5 sm:p-6">
       <div className="flex items-start gap-4 sm:gap-5">
-        <span className="pop-2">
-          <Avatar character={character} />
-        </span>
+        <Avatar character={character} />
 
         <div className="min-w-0 flex-1">
           <p className="text-2xs font-semibold uppercase tracking-[0.16em] text-primary">
@@ -190,7 +180,7 @@ export function HeroPanel({ character, loading }) {
           glyph="◉"
           tone="text-accent"
           value={fmt(character.gold)}
-          label="Gold"
+          label="Galleons"
           title={`${character.gold.toLocaleString()} gold earned and unspent`}
         />
         <StatPill
@@ -238,7 +228,7 @@ export function HeroPanel({ character, loading }) {
           <AttributeRow key={attribute.id} attribute={attribute} />
         ))}
       </ul>
-    </Tilt3D>
+    </section>
   );
 }
 

@@ -6,17 +6,17 @@ import { useAuth } from '../context/AuthContext';
 import { useGame } from '../context/GameContext';
 import { fmt } from '../lib/game';
 import { ModeToggle } from './ModeToggle';
-import { CinemaBackdrop } from './CinemaBackdrop';
+import { DayPlate } from './DayPlate';
 import { Crest } from './Enchant';
 
 const NAV = [
   { to: '/play', label: 'Quests', glyph: '⚔', mobile: true },
   { to: '/character', label: 'Character', glyph: '☗', mobile: true },
-  { to: '/achievements', label: 'Achievements', glyph: '🏆', mobile: true },
-  { to: '/chronicle', label: 'Chronicle', glyph: '❧', mobile: true },
-  { to: '/emporium', label: 'Emporium', glyph: '◉', mobile: true },
-  // Six tabs will not fit a phone; the Keep stays reachable from the avatar menu.
-  { to: '/keep', label: 'Keep', glyph: '⌂', mobile: false },
+  { to: '/achievements', label: 'Frog Cards', glyph: '🏆', mobile: true },
+  { to: '/chronicle', label: 'Prophet', title: 'The Daily Prophet', glyph: '❧', mobile: true },
+  { to: '/emporium', label: 'Diagon Alley', glyph: '◉', mobile: true },
+  // Six tabs will not fit a phone; the Room stays reachable from the avatar menu.
+  { to: '/keep', label: 'The Room', title: 'Room of Requirement', glyph: '⌂', mobile: false },
 ];
 
 const MOBILE_NAV = NAV.filter((item) => item.mobile);
@@ -36,7 +36,7 @@ function Mark() {
           className="h-7 w-7 transition-transform duration-500 group-hover:[transform:rotateY(28deg)_rotateX(-8deg)]"
         />
       </span>
-      <span className="spellcast text-base font-bold tracking-wide">Life RPG</span>
+      <span className="spellcast text-base font-bold tracking-wide">Hogwarts</span>
     </span>
   );
 }
@@ -77,7 +77,7 @@ function AccountMenu() {
         aria-expanded={open}
         aria-haspopup="menu"
         aria-label="Account menu"
-        className="grid h-9 w-9 place-items-center overflow-hidden rounded-full border border-line bg-raised text-sm font-semibold text-ink transition-colors hover:border-primary/60"
+        className="grid h-10 w-10 place-items-center overflow-hidden rounded-full border border-line bg-raised text-sm font-semibold text-ink transition-colors hover:border-primary/60 sm:h-9 sm:w-9"
       >
         {character?.photoURL ? (
           <img
@@ -105,7 +105,7 @@ function AccountMenu() {
           >
             <div className="px-3 py-2">
               <p className="truncate text-sm font-semibold text-ink">
-                {character?.displayName ?? 'Wanderer'}
+                {character?.displayName ?? 'Witch or Wizard'}
               </p>
               <p className="truncate text-2xs text-faint">{user?.email}</p>
             </div>
@@ -118,7 +118,7 @@ function AccountMenu() {
               onClick={() => setOpen(false)}
               className="block rounded-lg px-3 py-2 text-sm text-ink hover:bg-raised"
             >
-              The Keep
+              Room of Requirement
             </NavLink>
 
             <button
@@ -161,9 +161,9 @@ export function AppShell({ children }) {
 
   return (
     <>
-      {/* The blurred cut, not the hero one: there is real content to read on
-          every route behind the shell, and a sharp castle competes with it. */}
-      <CinemaBackdrop variant="veil" candles />
+      {/* The same painting as the front page, held still and pushed well
+          down. Continuity of place, at the cost of one image decode. */}
+      <DayPlate still />
 
       <div className="above-film flex min-h-[100dvh] flex-col">
         <a href="#main" className="sr-only-focusable btn-primary fixed left-4 top-4 z-[100]">
@@ -179,18 +179,18 @@ export function AppShell({ children }) {
           </div>
         ) : null}
 
-        <header className="sticky top-0 z-40 border-b border-line bg-void/70 backdrop-blur-2xl">
+        <header className="sticky top-0 z-40 border-b border-line bg-void">
           <div className="mx-auto flex h-14 max-w-6xl items-center justify-between gap-4 px-4 sm:px-6">
-            <NavLink to="/play" aria-label="Life RPG home">
+            <NavLink to="/play" aria-label="Hogwarts home" className="flex items-center py-2">
               <Mark />
             </NavLink>
 
             {/* Desktop nav */}
-            <nav aria-label="Main" className="hidden md:block">
+            <nav aria-label="Main" className="hidden lg:block">
               <ul className="flex items-center gap-0.5">
                 {NAV.map((item) => (
                   <li key={item.to}>
-                    <NavLink to={item.to} className={navClass}>
+                    <NavLink to={item.to} title={item.title ?? item.label} className={navClass}>
                       {({ isActive }) => (
                         <>
                           <span aria-hidden="true" className="text-xs opacity-70">
@@ -236,7 +236,7 @@ export function AppShell({ children }) {
           id="main"
           ref={mainRef}
           tabIndex={-1}
-          className="stage w-full flex-1 px-4 pb-28 pt-6 outline-none sm:px-6 lg:px-8 md:pb-16"
+          className="stage w-full flex-1 px-4 pb-28 pt-6 outline-none sm:px-6 lg:px-8 lg:pb-16"
         >
           {/* Keyed on the path so every navigation replays the entrance: the
               page swings up out of depth rather than simply appearing. */}
@@ -249,7 +249,7 @@ export function AppShell({ children }) {
             phones so the last row is never under the home indicator. */}
         <nav
           aria-label="Main"
-          className="fixed inset-x-0 bottom-0 z-40 border-t border-line bg-void/80 pb-[env(safe-area-inset-bottom)] backdrop-blur-2xl md:hidden"
+          className="fixed inset-x-0 bottom-0 z-40 border-t border-line bg-void pb-[env(safe-area-inset-bottom)] lg:hidden"
         >
           <ul className="mx-auto flex max-w-md">
             {MOBILE_NAV.map((item) => (

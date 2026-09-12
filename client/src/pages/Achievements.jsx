@@ -66,7 +66,7 @@ function AchievementCard({ item }) {
                   year: 'numeric',
                 })
               : ''}
-            {item.reward ? ` · +${item.reward} gold` : ''}
+            {item.reward ? ` · +${item.reward} Galleons` : ''}
           </p>
         ) : (
           <div className="mt-2.5">
@@ -83,7 +83,7 @@ function AchievementCard({ item }) {
                 {fmt(item.current)} / {fmt(item.target)}
               </span>
               <span aria-hidden="true">·</span>
-              <span>+{item.reward} gold on unlock</span>
+              <span>+{item.reward} Galleons on unlock</span>
             </p>
           </div>
         )}

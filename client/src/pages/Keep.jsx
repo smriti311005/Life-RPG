@@ -300,8 +300,8 @@ export default function Keep() {
           <Row label="Level" value={character.level} />
           <Row label="Lifetime XP" value={fmt(character.totalXp)} />
           <Row label="Quests completed" value={fmt(character.lifetime.tasksCompleted)} />
-          <Row label="Gold earned" value={fmt(character.lifetime.goldEarned)} />
-          <Row label="Gold spent" value={fmt(character.lifetime.goldSpent)} />
+          <Row label="Galleons earned" value={fmt(character.lifetime.goldEarned)} />
+          <Row label="Galleons spent" value={fmt(character.lifetime.goldSpent)} />
           <Row label="Longest streak" value={`${character.streak.longest} days`} />
           <Row
             label="Adventuring since"

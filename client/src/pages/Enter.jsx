@@ -192,20 +192,20 @@ export default function Enter() {
           <Link
             to="/"
             className="mb-6 flex items-center justify-center gap-2.5 text-ink"
-            aria-label="Life RPG home"
+            aria-label="Hogwarts home"
           >
             <Crest id="enter-crest" className="h-8 w-8" />
-            <span className="spellcast text-lg font-bold tracking-wide">Life RPG</span>
+            <span className="spellcast text-lg font-bold tracking-wide">Hogwarts</span>
           </Link>
 
           <div className="glass p-6 sm:p-7">
             <h1 className="text-xl font-semibold text-ink">
-              {mode === 'signin' ? 'Return to your keep' : 'Roll a new character'}
+              {mode === 'signin' ? 'Welcome back to the castle' : 'Present yourself for Sorting'}
             </h1>
             <p className="mt-1 text-sm text-muted">
               {mode === 'signin'
-                ? 'Your progress is waiting exactly where you left it.'
-                : 'Level one starts at 55 XP. That is about two real things done today.'}
+                ? 'Your house, your streak and every Galleon are exactly where you left them.'
+                : 'Level one costs 55 experience — about two real things done today.'}
             </p>
 
             {googleAvailable ? (
@@ -304,12 +304,12 @@ export default function Enter() {
                   ? 'Just a moment…'
                   : mode === 'signin'
                     ? 'Enter'
-                    : 'Create my character'}
+                    : 'Send me to the Hat'}
               </button>
             </form>
 
             <p className="mt-5 text-center text-sm text-muted">
-              {mode === 'signin' ? "Haven't played before? " : 'Already have a character? '}
+              {mode === 'signin' ? "Not yet sorted? " : 'Already have a wand? '}
               <button
                 type="button"
                 onClick={() => {
@@ -319,14 +319,14 @@ export default function Enter() {
                 }}
                 className="font-semibold text-primary hover:underline"
               >
-                {mode === 'signin' ? 'Roll one now' : 'Sign in'}
+                {mode === 'signin' ? 'Be sorted' : 'Sign in'}
               </button>
             </p>
         </div>
 
         <p className="mt-5 text-center text-2xs text-faint">
           <Link to="/" className="hover:text-muted">
-            ← Back to the front page
+            ← Back to the gates
           </Link>
         </p>
         </div>
