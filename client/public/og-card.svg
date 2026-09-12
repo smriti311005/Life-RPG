@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0b0814"/>
+      <stop offset="100%" stop-color="#1a1030"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#a782ff"/>
+      <stop offset="100%" stop-color="#f0c26a"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="0%" r="70%">
+      <stop offset="0%" stop-color="#a782ff" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#a782ff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+  <path d="M600 120l26 71 71 26-71 26-26 71-26-71-71-26 71-26z" fill="url(#gold)" opacity="0.95"/>
+  <text x="600" y="400" text-anchor="middle" font-family="Georgia, serif" font-size="76" font-weight="700" fill="#ede9f7">LIFE RPG</text>
+  <text x="600" y="456" text-anchor="middle" font-family="system-ui, sans-serif" font-size="28" fill="#9c91b6">Turn your habits into a character worth levelling</text>
+  <rect x="420" y="506" width="360" height="8" rx="4" fill="#2e2444"/>
+  <rect x="420" y="506" width="248" height="8" rx="4" fill="url(#gold)"/>
+</svg>

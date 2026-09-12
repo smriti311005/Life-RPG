@@ -1,0 +1,30 @@
+{
+  "name": "life-rpg-server",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Express + MongoDB + Firebase Admin API for Life RPG",
+  "main": "src/index.js",
+  "scripts": {
+    "dev": "node --watch src/index.js",
+    "start": "node src/index.js",
+    "seed": "node src/scripts/seed.js",
+    "seed:game": "node src/scripts/seedGameData.js",
+    "db:check": "node src/scripts/checkDb.js",
+    "db:use-atlas": "node src/scripts/useAtlas.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "compression": "^1.7.5",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "express-rate-limit": "^7.5.0",
+    "firebase-admin": "^13.0.2",
+    "helmet": "^8.0.0",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^8.9.5",
+    "morgan": "^1.10.0",
+    "zod": "^3.24.1"
+  }
+}

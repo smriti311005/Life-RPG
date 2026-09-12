@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en" data-theme="obsidian">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#09070f" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#f3f2f8" media="(prefers-color-scheme: light)" />
+
+    <title>Life RPG — Turn your habits into a character worth levelling</title>
+    <meta
+      name="description"
+      content="Life RPG turns real-world habits into a role-playing game. Complete quests to earn XP and gold, level five attributes, hold a daily streak, and spend your gold on themes and titles. Free, cross-device, and built on a server that keeps your progress honest."
+    />
+    <meta name="author" content="Life RPG" />
+    <link rel="canonical" href="https://life-rpg.example.com/" />
+
+    <!-- Open Graph / social -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Life RPG" />
+    <meta property="og:title" content="Life RPG — Turn your habits into a character worth levelling" />
+    <meta
+      property="og:description"
+      content="Earn XP for the gym, the books and the dishes. Level five attributes, hold your streak, and spend gold on a keep worth returning to."
+    />
+    <meta property="og:image" content="/og-card.svg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Life RPG" />
+    <meta
+      name="twitter:description"
+      content="A role-playing game where the quests are your actual life."
+    />
+    <meta name="twitter:image" content="/og-card.svg" />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/favicon.svg" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <!-- Fonts: preconnect first so the handshake overlaps HTML parsing, and
+         `display=swap` so text is never invisible while they load. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap"
+    />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Life RPG",
+        "applicationCategory": "LifestyleApplication",
+        "operatingSystem": "Any",
+        "description": "A habit and task tracker built as a role-playing game: real-world tasks award XP and gold, level five character attributes, and build daily streaks.",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+        "featureList": [
+          "Quest log with five character attributes",
+          "Non-linear levelling curve",
+          "Daily streaks with milestone rewards",
+          "Gold economy with unlockable themes and titles",
+          "Cross-device sync"
+        ]
+      }
+    </script>
+
+    <!-- Applies the saved palette and light/dark mode before first paint, so a
+         returning player never sees a flash of the wrong theme. -->
+    <script>
+      (function () {
+        var root = document.documentElement;
+        try {
+          var theme = localStorage.getItem('liferpg:theme');
+          if (theme) root.setAttribute('data-theme', theme);
+
+          // "system" stores nothing, so the OS media query is left to decide.
+          var mode = localStorage.getItem('liferpg:mode');
+          if (mode === 'light' || mode === 'dark') root.setAttribute('data-mode', mode);
+
+          if (localStorage.getItem('liferpg:reduced-motion') === 'true') {
+            root.setAttribute('data-motion', 'reduced');
+          }
+        } catch (e) {
+          /* private mode, blocked storage — the defaults are fine */
+        }
+      })();
+    </script>
+  </head>
+
+  <body>
+    <div id="root"></div>
+    <noscript>
+      <div style="padding: 2rem; font-family: system-ui; color: #ede9f7">
+        <h1>Life RPG needs JavaScript</h1>
+        <p>This app runs entirely in your browser. Please enable JavaScript to continue.</p>
+      </div>
+    </noscript>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

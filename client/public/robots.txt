@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /play
+Disallow: /chronicle
+Disallow: /emporium
+
+Sitemap: https://life-rpg.example.com/sitemap.xml

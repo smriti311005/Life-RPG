@@ -1,0 +1,512 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ==========================================================================
+   Theme system
+
+   Two independent axes:
+
+     data-theme  — which palette (obsidian, emberfall, tidewatch, verdant,
+                   goldleaf). Bought in the Emporium.
+     data-mode   — light, dark, or absent (meaning: follow the OS).
+
+   Every palette declares BOTH a --dark-* and a --lite-* set, then points the
+   live --c-* tokens at one of them. Because the palettes all name their two
+   sets identically, the light/dark remapping is written once at the bottom
+   rather than once per palette.
+   ========================================================================== */
+
+:root,
+[data-theme='obsidian'] {
+  --dark-void: 9 7 16;
+  --dark-surface: 19 15 30;
+  --dark-raised: 28 22 44;
+  --dark-line: 48 38 72;
+  --dark-ink: 237 233 247;
+  --dark-muted: 156 145 182;
+  --dark-faint: 104 95 128;
+  --dark-primary: 167 130 255;
+  --dark-primary-soft: 122 88 204;
+  --dark-accent: 240 194 106;
+  --dark-danger: 244 114 122;
+  --dark-success: 110 231 168;
+
+  --lite-void: 243 242 248;
+  --lite-surface: 255 255 255;
+  --lite-raised: 249 248 253;
+  --lite-line: 218 214 232;
+  --lite-ink: 28 24 41;
+  --lite-muted: 92 85 112;
+  --lite-faint: 132 126 154;
+  --lite-primary: 104 58 200;
+  --lite-primary-soft: 138 100 220;
+  --lite-accent: 154 106 16;
+  --lite-danger: 186 38 54;
+  --lite-success: 20 118 74;
+}
+
+[data-theme='emberfall'] {
+  --dark-void: 18 9 6;
+  --dark-surface: 31 16 11;
+  --dark-raised: 45 24 16;
+  --dark-line: 76 42 28;
+  --dark-ink: 249 236 226;
+  --dark-muted: 191 155 134;
+  --dark-faint: 138 104 86;
+  --dark-primary: 255 138 76;
+  --dark-primary-soft: 198 96 48;
+  --dark-accent: 255 208 138;
+  --dark-danger: 255 120 110;
+  --dark-success: 148 214 150;
+
+  --lite-void: 250 243 236;
+  --lite-surface: 255 252 248;
+  --lite-raised: 255 248 241;
+  --lite-line: 229 208 190;
+  --lite-ink: 42 26 18;
+  --lite-muted: 112 82 62;
+  --lite-faint: 148 118 96;
+  --lite-primary: 184 74 18;
+  --lite-primary-soft: 214 110 50;
+  --lite-accent: 146 92 10;
+  --lite-danger: 176 40 40;
+  --lite-success: 44 116 60;
+}
+
+[data-theme='tidewatch'] {
+  --dark-void: 4 15 25;
+  --dark-surface: 9 27 42;
+  --dark-raised: 14 40 60;
+  --dark-line: 26 65 92;
+  --dark-ink: 226 242 252;
+  --dark-muted: 141 173 196;
+  --dark-faint: 94 126 150;
+  --dark-primary: 76 201 240;
+  --dark-primary-soft: 42 142 180;
+  --dark-accent: 143 227 208;
+  --dark-danger: 255 130 138;
+  --dark-success: 126 226 178;
+
+  --lite-void: 237 244 250;
+  --lite-surface: 255 255 255;
+  --lite-raised: 246 251 254;
+  --lite-line: 201 219 232;
+  --lite-ink: 15 32 45;
+  --lite-muted: 74 100 120;
+  --lite-faint: 116 140 158;
+  --lite-primary: 12 112 156;
+  --lite-primary-soft: 40 150 190;
+  --lite-accent: 14 118 106;
+  --lite-danger: 180 40 52;
+  --lite-success: 20 116 82;
+}
+
+[data-theme='verdant'] {
+  --dark-void: 7 16 11;
+  --dark-surface: 14 29 20;
+  --dark-raised: 21 43 30;
+  --dark-line: 38 71 50;
+  --dark-ink: 231 245 234;
+  --dark-muted: 148 180 158;
+  --dark-faint: 100 133 110;
+  --dark-primary: 110 231 168;
+  --dark-primary-soft: 58 163 110;
+  --dark-accent: 217 249 157;
+  --dark-danger: 255 138 138;
+  --dark-success: 134 239 172;
+
+  --lite-void: 239 246 240;
+  --lite-surface: 255 255 255;
+  --lite-raised: 247 252 247;
+  --lite-line: 204 223 207;
+  --lite-ink: 20 38 26;
+  --lite-muted: 76 102 84;
+  --lite-faint: 118 144 124;
+  --lite-primary: 20 118 70;
+  --lite-primary-soft: 46 150 98;
+  --lite-accent: 88 118 14;
+  --lite-danger: 176 42 42;
+  --lite-success: 24 118 68;
+}
+
+/* The warm archive: parchment by day, lamplight by night. */
+[data-theme='goldleaf'] {
+  --dark-void: 22 17 10;
+  --dark-surface: 35 27 16;
+  --dark-raised: 48 37 22;
+  --dark-line: 78 60 36;
+  --dark-ink: 246 236 216;
+  --dark-muted: 190 168 132;
+  --dark-faint: 140 120 90;
+  --dark-primary: 226 178 96;
+  --dark-primary-soft: 180 138 70;
+  --dark-accent: 240 210 140;
+  --dark-danger: 246 128 118;
+  --dark-success: 150 206 140;
+
+  --lite-void: 243 234 216;
+  --lite-surface: 253 248 238;
+  --lite-raised: 255 253 247;
+  --lite-line: 214 197 166;
+  --lite-ink: 42 32 20;
+  --lite-muted: 110 92 66;
+  --lite-faint: 148 130 102;
+  --lite-primary: 144 90 28;
+  --lite-primary-soft: 178 128 62;
+  --lite-accent: 152 106 14;
+  --lite-danger: 168 45 45;
+  --lite-success: 58 118 70;
+}
+
+/* --------------------------------------------------------------------------
+   Mode resolution
+
+   Dark is the resting state. The two blocks below switch a palette to its
+   light set — one for an explicit choice, one for "follow the OS" — and both
+   are written once for all five palettes.
+   -------------------------------------------------------------------------- */
+
+:root {
+  --c-void: var(--dark-void);
+  --c-surface: var(--dark-surface);
+  --c-raised: var(--dark-raised);
+  --c-line: var(--dark-line);
+  --c-ink: var(--dark-ink);
+  --c-muted: var(--dark-muted);
+  --c-faint: var(--dark-faint);
+  --c-primary: var(--dark-primary);
+  --c-primary-soft: var(--dark-primary-soft);
+  --c-accent: var(--dark-accent);
+  --c-danger: var(--dark-danger);
+  --c-success: var(--dark-success);
+
+  --c-shadow: 0 18px 40px -24px rgb(0 0 0 / 0.9);
+  --c-sheen: linear-gradient(
+    90deg,
+    transparent,
+    rgb(var(--c-primary) / 0.5),
+    rgb(var(--c-accent) / 0.3),
+    transparent
+  );
+  --c-texture: 0.05;
+  color-scheme: dark;
+}
+
+/* Explicit light. Specificity 0,2,0 so it beats the palette blocks above. */
+html[data-mode='light'] {
+  --c-void: var(--lite-void);
+  --c-surface: var(--lite-surface);
+  --c-raised: var(--lite-raised);
+  --c-line: var(--lite-line);
+  --c-ink: var(--lite-ink);
+  --c-muted: var(--lite-muted);
+  --c-faint: var(--lite-faint);
+  --c-primary: var(--lite-primary);
+  --c-primary-soft: var(--lite-primary-soft);
+  --c-accent: var(--lite-accent);
+  --c-danger: var(--lite-danger);
+  --c-success: var(--lite-success);
+
+  /* A near-black drop shadow reads as dirt on a light ground. */
+  --c-shadow: 0 12px 30px -18px rgb(38 32 22 / 0.16);
+  /* And a light hairline is invisible on white, so it becomes a dark one. */
+  --c-sheen: linear-gradient(90deg, transparent, rgb(var(--c-line) / 0.9), transparent);
+  --c-texture: 0.045;
+  color-scheme: light;
+}
+
+/* Follow the OS, unless the player has explicitly asked for dark. */
+@media (prefers-color-scheme: light) {
+  html:not([data-mode='dark']) {
+    --c-void: var(--lite-void);
+    --c-surface: var(--lite-surface);
+    --c-raised: var(--lite-raised);
+    --c-line: var(--lite-line);
+    --c-ink: var(--lite-ink);
+    --c-muted: var(--lite-muted);
+    --c-faint: var(--lite-faint);
+    --c-primary: var(--lite-primary);
+    --c-primary-soft: var(--lite-primary-soft);
+    --c-accent: var(--lite-accent);
+    --c-danger: var(--lite-danger);
+    --c-success: var(--lite-success);
+
+    --c-shadow: 0 12px 30px -18px rgb(38 32 22 / 0.16);
+    --c-sheen: linear-gradient(90deg, transparent, rgb(var(--c-line) / 0.9), transparent);
+    --c-texture: 0.045;
+    color-scheme: light;
+  }
+}
+
+
+/* --------------------------------------------------------------------------
+   Attribute colours
+
+   These identify a quest at a glance, so they have to stay legible on both
+   grounds. The dark set is bright on near-black; the light set is the same
+   six hues taken much darker, because a pastel that sings on black is
+   unreadable on white.
+   -------------------------------------------------------------------------- */
+
+:root {
+  --attr-strength: hsl(4 72% 66%);
+  --attr-intelligence: hsl(265 72% 66%);
+  --attr-agility: hsl(175 66% 58%);
+  --attr-vitality: hsl(145 62% 60%);
+  --attr-wisdom: hsl(215 72% 66%);
+  --attr-charisma: hsl(38 76% 62%);
+}
+
+html[data-mode='light'] {
+  --attr-strength: hsl(4 68% 46%);
+  --attr-intelligence: hsl(265 58% 52%);
+  --attr-agility: hsl(178 78% 27%);
+  --attr-vitality: hsl(145 66% 28%);
+  --attr-wisdom: hsl(215 64% 44%);
+  --attr-charisma: hsl(36 84% 32%);
+}
+
+@media (prefers-color-scheme: light) {
+  html:not([data-mode='dark']) {
+    --attr-strength: hsl(4 68% 46%);
+    --attr-intelligence: hsl(265 58% 52%);
+    --attr-agility: hsl(178 78% 27%);
+    --attr-vitality: hsl(145 66% 28%);
+    --attr-wisdom: hsl(215 64% 44%);
+    --attr-charisma: hsl(36 84% 32%);
+  }
+}
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+
+@layer base {
+  * {
+    @apply border-line;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-void font-sans text-ink antialiased;
+    /* A faint woven texture so large flat fields do not read as dead space. */
+    background-image:
+      radial-gradient(rgb(var(--c-primary) / var(--c-texture)) 1px, transparent 1px),
+      radial-gradient(rgb(var(--c-accent) / var(--c-texture)) 1px, transparent 1px);
+    background-size: 44px 44px, 44px 44px;
+    background-position: 0 0, 22px 22px;
+    min-height: 100dvh;
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply font-display tracking-tight;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* A single visible focus treatment everywhere, so keyboard users are never
+     guessing where they are. */
+  :focus-visible {
+    @apply outline-none ring-2 ring-primary ring-offset-2 ring-offset-void;
+    border-radius: 0.5rem;
+  }
+
+  ::selection {
+    background: rgb(var(--c-primary) / 0.3);
+    color: rgb(var(--c-ink));
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: rgb(var(--c-void));
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgb(var(--c-line));
+    border-radius: 99px;
+    border: 2px solid rgb(var(--c-void));
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgb(var(--c-primary) / 0.6);
+  }
+}
+
+/* ==========================================================================
+   Components
+   ========================================================================== */
+
+@layer components {
+  .panel {
+    @apply relative rounded-card border border-line bg-surface/80 backdrop-blur-xl;
+    box-shadow: 0 0 0 1px rgb(var(--c-line) / 0.9), var(--c-shadow);
+  }
+
+  .panel-raised {
+    @apply relative rounded-card border border-line bg-raised/70 backdrop-blur-xl;
+    box-shadow: 0 0 0 1px rgb(var(--c-line) / 0.9), var(--c-shadow);
+  }
+
+  /* A hairline along the top edge — the detail that makes a flat rectangle
+     read as a lit surface. */
+  .panel::before,
+  .panel-raised::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 1px;
+    background: var(--c-sheen);
+    border-radius: inherit;
+    pointer-events: none;
+  }
+
+  .btn {
+    @apply inline-flex select-none items-center justify-center gap-2 rounded-xl px-4 py-2.5
+           text-sm font-semibold transition-all duration-200
+           disabled:pointer-events-none disabled:opacity-45;
+  }
+
+  .btn-primary {
+    @apply btn bg-primary text-void
+           hover:brightness-110 active:scale-[0.97];
+    box-shadow: 0 18px 40px -28px rgb(var(--c-primary) / 0.8);
+  }
+
+  .btn-ghost {
+    @apply btn border border-line bg-raised/60 text-ink
+           hover:border-primary/60 hover:bg-raised active:scale-[0.97];
+  }
+
+  .btn-quiet {
+    @apply btn text-muted hover:bg-raised/70 hover:text-ink active:scale-[0.97];
+  }
+
+  .field {
+    @apply w-full rounded-xl border border-line bg-void/60 px-3.5 py-2.5 text-sm text-ink
+           placeholder:text-faint transition-colors
+           focus:border-primary/70 focus:bg-void;
+  }
+
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-full border border-line bg-raised/70
+           px-2.5 py-1 text-2xs font-semibold uppercase tracking-wider text-muted;
+  }
+
+  .label {
+    @apply mb-1.5 block text-2xs font-semibold uppercase tracking-[0.14em] text-faint;
+  }
+
+  /* Loading skeleton with a travelling sheen. */
+  .skeleton {
+    @apply relative overflow-hidden rounded-lg bg-raised/60;
+  }
+  .skeleton::after {
+    content: '';
+    @apply absolute inset-0 -translate-x-full bg-sheen animate-shimmer;
+  }
+
+  .hairline {
+    @apply h-px w-full bg-gradient-to-r from-transparent via-line to-transparent;
+  }
+}
+
+@layer utilities {
+  .text-glow {
+    text-shadow: 0 0 24px rgb(var(--c-primary) / 0.45);
+  }
+
+  .numeric {
+    @apply font-mono tabular-nums;
+    font-feature-settings: 'tnum' 1;
+  }
+
+  /* Content visible to screen readers only, until it receives focus. */
+  .sr-only-focusable:not(:focus):not(:focus-within) {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Entrance reveal
+
+   Deliberately CSS rather than JS. The element's resting state is the *final*
+   state, and the keyframe animates from hidden — so if the animation never
+   runs (reduced motion, a throttled tab, a JS failure) the content is visible
+   rather than stranded at opacity 0. Stagger with `style={{ '--rise-delay' }}`.
+   -------------------------------------------------------------------------- */
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+}
+
+.rise {
+  animation: rise 0.62s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: var(--rise-delay, 0ms);
+}
+
+@keyframes drift {
+  0%,
+  100% {
+    opacity: 0.25;
+    transform: translateY(8px);
+  }
+  50% {
+    opacity: 0.6;
+    transform: translateY(-8px);
+  }
+}
+
+.drift {
+  animation: drift var(--drift-duration, 8s) ease-in-out infinite;
+  animation-delay: var(--drift-delay, 0ms);
+}
+
+/* ==========================================================================
+   Motion preferences
+
+   Honoured from two directions: the OS setting, and the in-app toggle which
+   sets `data-motion="reduced"` for people whose OS says nothing.
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+[data-motion='reduced'] *,
+[data-motion='reduced'] *::before,
+[data-motion='reduced'] *::after {
+  animation-duration: 0.01ms !important;
+  animation-delay: 0ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+}

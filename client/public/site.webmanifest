@@ -1,0 +1,10 @@
+{
+  "name": "Life RPG",
+  "short_name": "Life RPG",
+  "description": "Turn real-world habits into a character worth levelling.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#09070f",
+  "theme_color": "#09070f",
+  "icons": [{ "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" }]
+}
