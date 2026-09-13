@@ -42,13 +42,13 @@
   --dark-danger: 244 114 122;
   --dark-success: 126 214 168;
 
-  --lite-void: 237 240 245;
+  --lite-void: 242 244 248;
   --lite-surface: 255 255 255;
-  --lite-raised: 246 248 251;
-  --lite-line: 207 216 227;
-  --lite-ink: 15 30 44;
-  --lite-muted: 79 100 119;
-  --lite-faint: 119 140 159;
+  --lite-raised: 246 248 252;
+  --lite-line: 202 214 228;
+  --lite-ink: 10 24 38;
+  --lite-muted: 54 74 94;
+  --lite-faint: 88 110 132;
   --lite-primary: 18 92 138;
   --lite-primary-soft: 46 126 172;
   --lite-accent: 158 96 12;
@@ -78,9 +78,9 @@
   --lite-surface: 255 253 251;
   --lite-raised: 255 248 244;
   --lite-line: 228 206 196;
-  --lite-ink: 44 18 14;
-  --lite-muted: 116 76 62;
-  --lite-faint: 152 112 96;
+  --lite-ink: 38 14 10;
+  --lite-muted: 96 56 44;
+  --lite-faint: 128 86 72;
   --lite-primary: 168 32 26;
   --lite-primary-soft: 200 66 56;
   --lite-accent: 150 100 8;
@@ -106,9 +106,9 @@
   --lite-surface: 255 255 255;
   --lite-raised: 246 252 249;
   --lite-line: 200 222 212;
-  --lite-ink: 10 36 26;
-  --lite-muted: 66 102 84;
-  --lite-faint: 108 142 124;
+  --lite-ink: 8 32 22;
+  --lite-muted: 48 84 66;
+  --lite-faint: 82 118 100;
   --lite-primary: 10 112 78;
   --lite-primary-soft: 34 146 106;
   --lite-accent: 84 104 114;
@@ -134,9 +134,9 @@
   --lite-surface: 255 255 255;
   --lite-raised: 246 248 253;
   --lite-line: 204 213 234;
-  --lite-ink: 12 22 48;
-  --lite-muted: 72 88 124;
-  --lite-faint: 112 128 164;
+  --lite-ink: 10 20 44;
+  --lite-muted: 52 70 106;
+  --lite-faint: 88 106 142;
   --lite-primary: 32 66 168;
   --lite-primary-soft: 68 104 200;
   --lite-accent: 146 92 36;
@@ -162,9 +162,9 @@
   --lite-surface: 255 253 245;
   --lite-raised: 255 251 240;
   --lite-line: 226 214 180;
-  --lite-ink: 42 34 12;
-  --lite-muted: 110 94 56;
-  --lite-faint: 148 130 92;
+  --lite-ink: 38 30 10;
+  --lite-muted: 88 74 38;
+  --lite-faint: 122 106 68;
   --lite-primary: 150 106 8;
   --lite-primary-soft: 186 142 34;
   --lite-accent: 120 100 40;
@@ -539,7 +539,7 @@ html[data-mode='light'] {
   }
 
   .btn-ghost {
-    @apply btn border border-line bg-raised/60 text-ink
+    @apply btn border border-line bg-surface/90 text-ink
            hover:border-primary/60 hover:bg-raised active:scale-[0.97];
   }
 
@@ -694,20 +694,20 @@ html[data-mode='light'] {
    is to stop a night-time video making a light page feel muddy — hence the
    lifted brightness rather than a heavier wash. */
 html[data-mode='light'] {
-  --film-opacity: 0.5;
-  --film-scrim: 0.42;
-  --film-saturate: 0.85;
-  --film-brightness: 1.5;
-  --panel-over-film: 0.97;
+  --film-opacity: 0.18;
+  --film-scrim: 0.88;
+  --film-saturate: 0.6;
+  --film-brightness: 1.1;
+  --panel-over-film: 0.98;
 }
 
 @media (prefers-color-scheme: light) {
   html:not([data-mode='dark']) {
-    --film-opacity: 0.5;
-    --film-scrim: 0.42;
-    --film-saturate: 0.85;
-    --film-brightness: 1.5;
-    --panel-over-film: 0.97;
+    --film-opacity: 0.18;
+    --film-scrim: 0.88;
+    --film-saturate: 0.6;
+    --film-brightness: 1.1;
+    --panel-over-film: 0.98;
   }
 }
 
@@ -781,6 +781,13 @@ html[data-backdrop='on'] body {
        to ground or the content below floats over a half-lit lake. */
     linear-gradient(to bottom, transparent 42%, rgb(var(--c-void) / 0.92) 88%),
     linear-gradient(rgb(var(--c-void) / var(--film-scrim)), rgb(var(--c-void) / var(--film-scrim)));
+}
+
+html[data-mode='light'] .cinema__scrim,
+html:not([data-mode='dark']) .cinema__scrim {
+  background:
+    radial-gradient(ellipse 130% 90% at 50% 10%, rgb(var(--c-void) / 0.82) 0%, rgb(var(--c-void) / 0.92) 80%),
+    linear-gradient(to bottom, rgb(var(--c-void) / 0.78) 0%, rgb(var(--c-void) / 0.96) 65%, rgb(var(--c-void)) 100%);
 }
 
 /* Moonlight bloom, placed over the moon in the plate. */

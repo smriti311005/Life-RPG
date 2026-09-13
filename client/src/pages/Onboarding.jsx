@@ -24,19 +24,21 @@ function Rail({ step }) {
           <li key={label} className="flex items-center gap-2">
             <span
               aria-current={state === 'current' ? 'step' : undefined}
-              className={`flex items-center gap-2 rounded-full border px-3 py-1 text-2xs font-semibold uppercase tracking-wider transition-colors ${
+              className={`flex items-center gap-2 rounded-full border px-3.5 py-1.5 text-2xs font-semibold uppercase tracking-wider transition-colors shadow-sm ${
                 state === 'todo'
-                  ? 'border-line text-faint'
-                  : 'border-primary/60 bg-primary/12 text-primary'
+                  ? 'border-line bg-surface/90 text-muted backdrop-blur-md'
+                  : 'border-primary/80 bg-surface text-primary backdrop-blur-md font-bold ring-1 ring-primary/30'
               }`}
             >
-              <span aria-hidden="true">{state === 'done' ? '✓' : i + 1}</span>
+              <span aria-hidden="true" className={state === 'done' ? 'text-success font-bold' : ''}>
+                {state === 'done' ? '✓' : i + 1}
+              </span>
               {label}
             </span>
             {i < STEPS.length - 1 ? (
               <span
                 aria-hidden="true"
-                className={`h-px w-5 ${i < step ? 'bg-primary/60' : 'bg-line'}`}
+                className={`h-0.5 w-6 rounded ${i < step ? 'bg-primary/80' : 'bg-line/90'}`}
               />
             ) : null}
           </li>
@@ -53,9 +55,9 @@ function Rail({ step }) {
 function ClassStep({ value, onChange, onNext }) {
   return (
     <div>
-      <h1 className="spellcast text-center text-3xl">The Sorting</h1>
-      <p className="mx-auto mt-2 max-w-md text-center text-sm text-muted">
-        Your house grants a permanent <strong className="text-ink">+25% affinity</strong> in one
+      <h1 className="spellcast text-center text-3xl font-bold text-ink">The Sorting</h1>
+      <p className="mx-auto mt-2 max-w-lg text-center text-sm text-muted font-medium leading-relaxed">
+        Your house grants a permanent <strong className="text-ink font-semibold">+25% affinity</strong> in one
         discipline, and two free levels in it to start. Choose the one that matches what you
         actually want to become — the Hat does not offer second thoughts.
       </p>
@@ -71,12 +73,15 @@ function ClassStep({ value, onChange, onNext }) {
             return (
               <label
                 key={klass.id}
-                className={`panel-raised relative cursor-pointer p-5 transition-all has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-primary ${
-                  selected ? 'border-transparent' : 'hover:border-primary/40'
+                className={`panel-raised relative cursor-pointer p-5 transition-all shadow-sm has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-primary ${
+                  selected ? 'border-transparent shadow-lg' : 'hover:border-primary/40'
                 }`}
                 style={
                   selected
-                    ? { boxShadow: `inset 0 0 0 1.5px ${color}, 0 18px 40px -28px ${color}` }
+                    ? {
+                        background: `color-mix(in srgb, ${color} 14%, rgb(var(--c-surface)))`,
+                        boxShadow: `inset 0 0 0 2px ${color}, 0 18px 40px -24px ${color}`,
+                      }
                     : undefined
                 }
               >
@@ -92,10 +97,11 @@ function ClassStep({ value, onChange, onNext }) {
                 <div className="flex items-start gap-3.5">
                   <span
                     aria-hidden="true"
-                    className="grid h-12 w-12 shrink-0 place-items-center rounded-xl text-xl"
+                    className="grid h-12 w-12 shrink-0 place-items-center rounded-xl text-xl shadow-sm"
                     style={{
                       color,
-                      background: `color-mix(in srgb, ${color} 15%, transparent)`,
+                      background: `color-mix(in srgb, ${color} 18%, rgb(var(--c-surface)))`,
+                      border: `1px solid color-mix(in srgb, ${color} 30%, transparent)`,
                     }}
                   >
                     {klass.glyph}
@@ -106,14 +112,14 @@ function ClassStep({ value, onChange, onNext }) {
                     <p className="text-2xs font-semibold uppercase tracking-wider" style={{ color }}>
                       {attribute.name} · {attribute.short}
                     </p>
-                    <p className="mt-2 text-xs leading-relaxed text-muted">{klass.blurb}</p>
+                    <p className="mt-2 text-xs leading-relaxed text-muted font-medium">{klass.blurb}</p>
                   </div>
                 </div>
 
                 {selected ? (
                   <span
                     aria-hidden="true"
-                    className="absolute right-4 top-4 text-sm"
+                    className="absolute right-4 top-4 text-sm font-bold"
                     style={{ color }}
                   >
                     ✓
@@ -126,7 +132,7 @@ function ClassStep({ value, onChange, onNext }) {
       </fieldset>
 
       <div className="mt-8 flex justify-center">
-        <button type="button" className="btn-primary px-7 py-3" disabled={!value} onClick={onNext}>
+        <button type="button" className="btn-primary px-8 py-3 shadow-md" disabled={!value} onClick={onNext}>
           {value ? 'Continue' : 'Choose a class to continue'}
         </button>
       </div>
@@ -141,15 +147,15 @@ function ClassStep({ value, onChange, onNext }) {
 function FocusStep({ areas, value, onToggle, onNext, onBack }) {
   return (
     <div>
-      <h1 className="text-center font-display text-3xl font-bold">What do you want to improve?</h1>
-      <p className="mx-auto mt-2 max-w-md text-center text-sm text-muted">
+      <h1 className="text-center font-display text-3xl font-bold text-ink">What do you want to improve?</h1>
+      <p className="mx-auto mt-2 max-w-lg text-center text-sm text-muted font-medium leading-relaxed">
         Each one you pick drops a couple of starter quests into your log, so you open the app
         to a board with something on it. Edit or delete them freely — nothing here is fixed.
       </p>
 
       <fieldset className="mt-8">
         <legend className="sr-only">Focus areas</legend>
-        <div className="grid gap-2.5 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {areas.map((area) => {
             const selected = value.includes(area.id);
             const color = attrColor(area.attribute);
@@ -157,16 +163,16 @@ function FocusStep({ areas, value, onToggle, onNext, onBack }) {
             return (
               <label
                 key={area.id}
-                className={`flex cursor-pointer items-center gap-3 rounded-xl border p-3.5 transition-all has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-primary ${
+                className={`flex cursor-pointer items-center gap-3.5 rounded-xl border p-3.5 transition-all shadow-sm has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-primary ${
                   selected
-                    ? 'border-transparent'
-                    : 'border-line bg-void/40 hover:border-primary/40 hover:bg-raised/60'
+                    ? 'border-transparent shadow-md'
+                    : 'border-line bg-surface/95 hover:border-primary/50 hover:bg-raised'
                 }`}
                 style={
                   selected
                     ? {
-                        background: `color-mix(in srgb, ${color} 12%, transparent)`,
-                        boxShadow: `inset 0 0 0 1px ${color}`,
+                        background: `color-mix(in srgb, ${color} 16%, rgb(var(--c-surface)))`,
+                        boxShadow: `inset 0 0 0 1.5px ${color}, 0 10px 24px -10px ${color}`,
                       }
                     : undefined
                 }
@@ -179,14 +185,18 @@ function FocusStep({ areas, value, onToggle, onNext, onBack }) {
                 />
                 <span
                   aria-hidden="true"
-                  className="grid h-9 w-9 shrink-0 place-items-center rounded-lg text-sm"
-                  style={{ color, background: `color-mix(in srgb, ${color} 14%, transparent)` }}
+                  className="grid h-10 w-10 shrink-0 place-items-center rounded-lg text-base shadow-sm"
+                  style={{
+                    color,
+                    background: `color-mix(in srgb, ${color} 18%, rgb(var(--c-surface)))`,
+                    border: `1px solid color-mix(in srgb, ${color} 30%, transparent)`,
+                  }}
                 >
                   {selected ? '✓' : area.glyph}
                 </span>
                 <span className="min-w-0">
-                  <span className="block text-sm font-medium text-ink">{area.name}</span>
-                  <span className="block text-2xs text-faint">{area.attributeName}</span>
+                  <span className="block text-sm font-semibold text-ink leading-tight">{area.name}</span>
+                  <span className="block text-2xs font-medium text-muted mt-0.5">{area.attributeName}</span>
                 </span>
               </label>
             );
@@ -194,17 +204,17 @@ function FocusStep({ areas, value, onToggle, onNext, onBack }) {
         </div>
       </fieldset>
 
-      <p className="mt-5 text-center text-2xs text-faint">
+      <p className="mt-5 text-center text-xs font-semibold text-muted">
         {value.length === 0
           ? 'You can skip this and start with an empty log.'
           : `${value.length} selected`}
       </p>
 
-      <div className="mt-6 flex justify-center gap-2">
-        <button type="button" className="btn-ghost" onClick={onBack}>
+      <div className="mt-7 flex justify-center gap-3">
+        <button type="button" className="btn-ghost px-6 py-2.5 shadow-xs" onClick={onBack}>
           Back
         </button>
-        <button type="button" className="btn-primary px-7" onClick={onNext}>
+        <button type="button" className="btn-primary px-8 py-2.5 shadow-md" onClick={onNext}>
           {value.length === 0 ? 'Skip' : 'Continue'}
         </button>
       </div>
@@ -230,11 +240,15 @@ function ReadyStep({ klass, focusCount, onEnter, busy, error, onBack }) {
         transition={{ type: 'spring', stiffness: 260, damping: 18 }}
         className="relative mx-auto mt-8 w-full max-w-sm"
       >
-        <div className="panel bg-aurora px-6 py-9">
+        <div className="panel bg-surface/95 px-6 py-9 shadow-xl border-line">
           <span
             aria-hidden="true"
-            className="mx-auto mb-4 grid h-20 w-20 place-items-center rounded-2xl border text-3xl"
-            style={{ borderColor: color, color, background: `color-mix(in srgb, ${color} 12%, transparent)` }}
+            className="mx-auto mb-4 grid h-20 w-20 place-items-center rounded-2xl border text-3xl shadow-sm"
+            style={{
+              borderColor: color,
+              color,
+              background: `color-mix(in srgb, ${color} 16%, rgb(var(--c-surface)))`,
+            }}
           >
             {klass.glyph}
           </span>
@@ -244,17 +258,17 @@ function ReadyStep({ klass, focusCount, onEnter, busy, error, onBack }) {
           </p>
           <p className="mt-1 font-display text-2xl font-bold text-ink">Level 1</p>
 
-          <div className="mx-auto mt-4 h-2.5 w-40 overflow-hidden rounded-full bg-void ring-1 ring-inset ring-line">
+          <div className="mx-auto mt-4 h-2.5 w-40 overflow-hidden rounded-full bg-raised ring-1 ring-inset ring-line">
             <div className="h-full w-0 rounded-full bg-gradient-to-r from-primary to-accent" />
           </div>
-          <p className="numeric mt-2 text-2xs text-faint">0 / 55 XP</p>
+          <p className="numeric mt-2 text-2xs font-medium text-muted">0 / 55 XP</p>
 
-          <div className="mt-6 space-y-1.5 text-xs text-muted">
+          <div className="mt-6 space-y-1.5 text-xs font-medium text-muted">
             <p>
-              <span style={{ color }}>{attribute.name}</span> starts at level 3
+              <span className="font-semibold" style={{ color }}>{attribute.name}</span> starts at level 3
             </p>
             <p>
-              +25% <span style={{ color }}>{attribute.short}</span> on every quest that trains it
+              +25% <span className="font-semibold" style={{ color }}>{attribute.short}</span> on every quest that trains it
             </p>
             {focusCount > 0 ? <p>{focusCount} focus areas ready to seed your log</p> : null}
           </div>
@@ -270,11 +284,11 @@ function ReadyStep({ klass, focusCount, onEnter, busy, error, onBack }) {
         </p>
       ) : null}
 
-      <div className="mt-8 flex justify-center gap-2">
-        <button type="button" className="btn-ghost" onClick={onBack} disabled={busy}>
+      <div className="mt-8 flex justify-center gap-3">
+        <button type="button" className="btn-ghost px-6 py-2.5 shadow-sm" onClick={onBack} disabled={busy}>
           Back
         </button>
-        <button type="button" className="btn-primary px-8 py-3 text-base" onClick={onEnter} disabled={busy}>
+        <button type="button" className="btn-primary px-8 py-3 text-base shadow-md" onClick={onEnter} disabled={busy}>
           {busy ? 'Rolling…' : 'Enter the world'}
         </button>
       </div>

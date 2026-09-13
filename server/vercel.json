@@ -1,0 +1,12 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "env": {
+    "NODE_ENV": "development",
+    "MONGODB_URI": "mongodb+srv://punithvendra_db_user:punith123@cluster0.an8niov.mongodb.net/life-rpg?appName=Cluster0&retryWrites=true&w=majority"
+  },
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "/api" },
+    { "source": "/api", "destination": "/api" },
+    { "source": "/(.*)", "destination": "/api" }
+  ]
+}

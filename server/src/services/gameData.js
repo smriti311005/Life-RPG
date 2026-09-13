@@ -116,9 +116,13 @@ export async function seedGameData({ force = false } = {}) {
 /* Loading                                                                    */
 /* -------------------------------------------------------------------------- */
 
-export async function loadGameData({ seedIfEmpty = true } = {}) {
+export const isGameDataLoaded = () => cache.loaded;
+
+export async function loadGameData({ seedIfEmpty = true, force = false } = {}) {
+  if (cache.loaded && !force) return cache;
+
   if (seedIfEmpty) {
-    const written = await seedGameData();
+    const written = await seedGameData({ force });
     if (written.length) {
       console.log(`[game] seeded defaults: ${written.join(', ')}`);
     }
