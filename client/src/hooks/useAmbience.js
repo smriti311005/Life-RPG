@@ -122,3 +122,50 @@ export function useTallViewport() {
 
   return tall;
 }
+
+/* -------------------------------------------------------------------------- */
+/* Appearance                                                                 */
+/* -------------------------------------------------------------------------- */
+
+function lightNow() {
+  if (typeof document === 'undefined') return false;
+  const mode = document.documentElement.getAttribute('data-mode');
+  if (mode === 'light') return true;
+  if (mode === 'dark') return false;
+  // No attribute means "follow the OS".
+  return window.matchMedia?.('(prefers-color-scheme: light)').matches ?? false;
+}
+
+/**
+ * True when the app is currently rendering light.
+ *
+ * The plate needs this in JS rather than CSS because the two modes use two
+ * different paintings. Swapping them with `content:` on the <img> worked in
+ * Chrome but downloaded both files and did nothing at all in Firefox, which
+ * does not support `content` on a replaced element. Choosing the `srcSet` in
+ * render fetches exactly one and works everywhere.
+ */
+export function useLightMode() {
+  const [light, setLight] = useState(lightNow);
+
+  useEffect(() => {
+    const sync = () => setLight(lightNow());
+    sync();
+
+    const query = window.matchMedia?.('(prefers-color-scheme: light)');
+    query?.addEventListener('change', sync);
+
+    const observer = new MutationObserver(sync);
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['data-mode'],
+    });
+
+    return () => {
+      query?.removeEventListener('change', sync);
+      observer.disconnect();
+    };
+  }, []);
+
+  return light;
+}

@@ -6,7 +6,7 @@ import { useAuth } from '../context/AuthContext';
 import { useGame } from '../context/GameContext';
 import { fmt } from '../lib/game';
 import { ModeToggle } from './ModeToggle';
-import { DayPlate } from './DayPlate';
+import { CinemaBackdrop } from './CinemaBackdrop';
 import { Crest } from './Enchant';
 
 const NAV = [
@@ -161,9 +161,10 @@ export function AppShell({ children }) {
 
   return (
     <>
-      {/* The same painting as the front page, held still and pushed well
-          down. Continuity of place, at the cost of one image decode. */}
-      <DayPlate still />
+      {/* The dashboard gets the film, not the painting: the front page is a
+          poster and this is the place you actually live in. The blurred cut,
+          because there is real content to read over it. */}
+      <CinemaBackdrop variant="veil" />
 
       <div className="above-film flex min-h-[100dvh] flex-col">
         <a href="#main" className="sr-only-focusable btn-primary fixed left-4 top-4 z-[100]">

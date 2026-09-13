@@ -90,7 +90,7 @@ export default function Enter() {
   const [busy, setBusy] = useState(null); // 'email' | 'google' | 'reset'
 
   if (checking) return <LoadingVeil label="Checking your session" />;
-  if (user) return <Navigate to={location.state?.from ?? '/play'} replace />;
+  if (user) return <Navigate to={location.state?.from ?? '/dashboard'} replace />;
 
   const set = (key) => (event) => {
     setForm((f) => ({ ...f, [key]: event.target.value }));
@@ -188,25 +188,32 @@ export default function Enter() {
       <CinemaBackdrop variant="wide" />
 
       <div className="above-film stage grid min-h-[100dvh] place-items-center px-4 py-10">
-        <div className="gate-in relative w-full max-w-md">
+        <div className="gate-in relative w-full max-w-2xl sm:max-w-3xl">
           <Link
             to="/"
-            className="mb-6 flex items-center justify-center gap-2.5 text-ink"
-            aria-label="Hogwarts home"
+            className="mb-6 flex items-center justify-center gap-2.5 text-ink transition-transform hover:scale-[1.02]"
+            aria-label="Wizarding Archives home"
           >
-            <Crest id="enter-crest" className="h-8 w-8" />
-            <span className="spellcast text-lg font-bold tracking-wide">Hogwarts</span>
+            <Crest id="enter-crest" className="h-9 w-9" />
+            <span className="spellcast text-xl font-bold tracking-wide">Wizarding Archives</span>
           </Link>
 
-          <div className="glass p-6 sm:p-7">
-            <h1 className="text-xl font-semibold text-ink">
-              {mode === 'signin' ? 'Welcome back to the castle' : 'Present yourself for Sorting'}
-            </h1>
-            <p className="mt-1 text-sm text-muted">
-              {mode === 'signin'
-                ? 'Your house, your streak and every Galleon are exactly where you left them.'
-                : 'Level one costs 55 experience — about two real things done today.'}
-            </p>
+          <div className="glass relative overflow-hidden p-8 sm:p-12 shadow-2xl">
+            {/* 2nd image used as a subtle magical backdrop for the card */}
+            <div
+              className="pointer-events-none absolute -right-12 -top-12 h-80 w-80 rounded-full bg-cover bg-center opacity-15 mix-blend-luminosity blur-[0.5px]"
+              style={{ backgroundImage: "url('/media/hogwarts-crest-wood.png')" }}
+              aria-hidden="true"
+            />
+            <div className="relative z-10">
+              <h1 className="font-display text-2xl font-semibold text-ink sm:text-3xl">
+                {mode === 'signin' ? 'Welcome back to the archives' : 'Present yourself for Sorting'}
+              </h1>
+              <p className="mt-2 text-sm text-muted sm:text-base">
+                {mode === 'signin'
+                  ? 'Your house, your streak and every Galleon are exactly where you left them.'
+                  : 'Level one costs 55 experience — about two real things done today.'}
+              </p>
 
             {googleAvailable ? (
               <>
@@ -322,7 +329,8 @@ export default function Enter() {
                 {mode === 'signin' ? 'Be sorted' : 'Sign in'}
               </button>
             </p>
-        </div>
+            </div>
+          </div>
 
         <p className="mt-5 text-center text-2xs text-faint">
           <Link to="/" className="hover:text-muted">

@@ -16,7 +16,7 @@ import Enter from './pages/Enter';
 import Quests from './pages/Quests';
 
 // The pages behind the fold are split out: the first paint after sign-in only
-// needs the quest board.
+const Dashboard = lazy(() => import('./pages/Dashboard'));
 const Chronicle = lazy(() => import('./pages/Chronicle'));
 const Emporium = lazy(() => import('./pages/Emporium'));
 const Keep = lazy(() => import('./pages/Keep'));
@@ -57,7 +57,7 @@ function RequiresCharacter({ children }) {
 function PublicOnly({ children }) {
   const { user, checking } = useAuth();
   if (checking) return <LoadingVeil label="Checking your session" />;
-  if (user) return <Navigate to="/play" replace />;
+  if (user) return <Navigate to="/dashboard" replace />;
   return children;
 }
 
@@ -135,6 +135,25 @@ export default function App() {
                             <Onboarding />
                           </Suspense>
                         </ErrorBoundary>
+                      </Protected>
+                    }
+                  />
+
+                  <Route
+                    path="/dashboard"
+                    element={
+                      <Protected>
+                        {/* Same guards as the rest of the signed-in app, minus
+                            AppShell: the dashboard brings its own chrome. */}
+                        <MotionConfig reducedMotion="user">
+                          <RequiresCharacter>
+                            <ErrorBoundary>
+                              <Suspense fallback={<LoadingVeil label="Opening the Great Hall" />}>
+                                <Dashboard />
+                              </Suspense>
+                            </ErrorBoundary>
+                          </RequiresCharacter>
+                        </MotionConfig>
                       </Protected>
                     }
                   />

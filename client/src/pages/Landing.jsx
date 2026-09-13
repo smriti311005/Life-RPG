@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
 
-import { ATTRIBUTES, attrColor } from '../lib/game';
-import { DayPlate } from '../components/DayPlate';
+import { CinemaBackdrop } from '../components/CinemaBackdrop';
 import { Tilt3D, RuneRule } from '../components/Enchant';
+import { ArchiveBar } from '../components/ArchiveBar';
 import { HouseCrest, HOUSE_COLORS } from '../components/Crests';
 
 /**
@@ -24,37 +24,31 @@ const SUBJECTS = [
     place: 'Hogwarts Library',
     real: 'Study & reading',
     body: 'Every chapter read and every hour revised is logged in the Restricted Section. Ancient Runes levels with you.',
-    glyph: '📖',
   },
   {
     place: 'Charms & Arithmancy',
     real: 'Coding & deep work',
     body: 'A shipped commit is a cast spell. Arithmancy rewards the long, precise problems nobody sees you solve.',
-    glyph: '✦',
   },
   {
     place: 'Quidditch Pitch',
     real: 'Fitness & training',
     body: 'Laps, lifts and long runs are pitch practice. Turn up enough and the House team is not a metaphor.',
-    glyph: '🧹',
   },
   {
     place: 'Herbology',
     real: 'Wellness & rest',
     body: 'Sleep, water, a walk outside. Greenhouse Three does not care how impressive it sounds — only that you tended it.',
-    glyph: '🌿',
   },
   {
     place: 'Transfiguration',
     real: 'Creative work',
     body: 'Writing, drawing, building. Turning one thing into a better thing is the whole subject.',
-    glyph: '🦋',
   },
   {
     place: 'Defence Against the Dark Arts',
     real: 'The hard, avoided task',
     body: 'The chore you have rescheduled four times. Face it and the Boggart pays out more than anything else on the board.',
-    glyph: '⚡',
   },
 ];
 
@@ -66,117 +60,40 @@ const HOUSE_NAMES = {
   hufflepuff: 'Hufflepuff',
 };
 
-function Star({ className = 'h-5 w-5' }) {
-  return (
-    <svg viewBox="0 0 24 24" className={`archive__star ${className}`} aria-hidden="true">
-      <path
-        d="M12 0.5l1.5 8.2 8.2 1.5-8.2 1.5-1.5 8.2-1.5-8.2L2.3 10.2l8.2-1.5z"
-        fill="currentColor"
-      />
-    </svg>
-  );
-}
-
 export default function Landing() {
   return (
     <>
-      <DayPlate />
+      {/* The sharp cut: on the front page the castle is the product shot. */}
+      <CinemaBackdrop variant="wide" />
 
       <div className="archive">
         <a href="#gate" className="sr-only-focusable btn-primary fixed left-4 top-4 z-50">
           Skip to content
         </a>
 
-        {/* ------------------------------- bar ------------------------------- */}
-        <header className="archive__bar">
-          <span className="flex items-center gap-3">
-            <span className="archive__sigil">9¾</span>
-            <span aria-hidden="true" className="text-[0.6rem] text-[rgb(216_178_110)]">
-              ◆
-            </span>
-            <span className="archive__eyebrow hidden sm:inline">{`${MARK.the} ${MARK.name}`}</span>
-          </span>
-
-          <nav aria-label="Account" className="flex items-center gap-3 sm:gap-5">
-            <a href="#subjects" className="archive__eyebrow hidden items-center gap-2 sm:flex">
-              <Star className="h-3 w-3" />
-              Explore
-            </a>
-            <span
-              aria-hidden="true"
-              className="hidden h-5 w-px bg-[rgb(248_240_224_/_0.25)] sm:block"
-            />
-            <Link to="/enter" className="archive__pill">
-              <span aria-hidden="true">⚡</span>
-              Sign In
-            </Link>
-          </nav>
-        </header>
+        <ArchiveBar name={MARK.name} tagline="Discover the magic within." />
 
         <main>
           {/* ------------------------------ hero ----------------------------- */}
-          {/* Hero and gate share one viewport, as on the reference: the
-              wordmark takes the optical centre and the gate sits on the lower
-              third, so the whole invitation is visible without scrolling. */}
-          <div className="flex min-h-[calc(100dvh-5.2rem)] flex-col">
-          <section className="stage flex flex-1 flex-col items-center justify-center px-4 text-center">
-            <Star className="rise mx-auto h-6 w-6" />
-
-            <p className="rise archive__the mt-5" style={{ '--rise-delay': '60ms' }}>
-              {MARK.the}
-            </p>
-
-            <h1
-              className="rise archive__title mt-2 max-w-[15ch]"
-              style={{ '--rise-delay': '110ms' }}
-            >
-              {MARK.name}
-            </h1>
-
-            <p className="rise archive__tagline mt-5" style={{ '--rise-delay': '170ms' }}>
-              Discover the magic within.
-            </p>
-
-            <div className="rise archive__rule mt-6" style={{ '--rise-delay': '210ms' }}>
-              <Star className="h-3 w-3" />
-            </div>
-          </section>
-
-          {/* ------------------------------ gate ----------------------------- */}
-          <section id="gate" className="stage-near px-4 pb-10">
-            <Tilt3D
-              max={6}
-              lift={-5}
-              surface="archive__gate"
-              radius="rounded-[1.1rem]"
-              className="mx-auto w-full max-w-md px-7 py-7 text-center"
-            >
-              <Star className="mx-auto h-4 w-4 pop-1" />
-
-              <h2 className="archive__gate-title mt-3 pop-2">Enter the Archives</h2>
-
-              <p className="archive__gate-sub mt-2 pop-1">
-                Discover &middot; Explore &middot; Belong
+          <div className="flex min-h-[calc(100dvh-7.5rem)] flex-col items-center justify-center">
+            <section className="stage flex flex-col items-center justify-center px-4 text-center my-auto">
+              <p className="rise archive__the" style={{ '--rise-delay': '60ms' }}>
+                {MARK.the}
               </p>
 
-              <div
-                aria-hidden="true"
-                className="mx-auto mt-5 h-px w-full bg-[linear-gradient(to_right,transparent,rgb(248_240_224_/_0.35),transparent)]"
-              />
-
-              <Link
-                to="/enter"
-                aria-label="Enter the Archives — create your character"
-                className="archive__enter mx-auto mt-5 pop-2"
+              <h1
+                className="rise archive__title mt-3 max-w-[14ch]"
+                style={{ '--rise-delay': '110ms' }}
               >
-                <span aria-hidden="true">→</span>
-              </Link>
-            </Tilt3D>
+                {MARK.name}
+              </h1>
 
-            <p className="mt-4 text-center text-2xs text-[rgb(248_240_224_/_0.65)]">
-              Free. No credit card. Sorted in under a minute.
-            </p>
-          </section>
+              <p className="rise archive__tagline mt-5" style={{ '--rise-delay': '170ms' }}>
+                Discover the magic within.
+              </p>
+
+              <div className="rise archive__rule mt-7" style={{ '--rise-delay': '210ms' }} />
+            </section>
           </div>
 
           {/* ---------------------------- subjects --------------------------- */}
@@ -211,10 +128,7 @@ export default function Landing() {
                     className="rise p-5"
                     style={{ '--rise-delay': `${(i % 3) * 80}ms` }}
                   >
-                    <span aria-hidden="true" className="pop-2 text-2xl">
-                      {subject.glyph}
-                    </span>
-                    <h3 className="pop-1 mt-3 font-display text-base font-semibold text-ink">
+                    <h3 className="pop-1 font-display text-base font-semibold text-ink">
                       {subject.place}
                     </h3>
                     <p className="mt-0.5 text-2xs font-semibold uppercase tracking-[0.14em] text-accent">
@@ -273,68 +187,29 @@ export default function Landing() {
             </div>
           </section>
 
-          {/* --------------------------- attributes -------------------------- */}
-          <section
-            aria-labelledby="attrs-heading"
-            className="stage bg-void px-4 pb-20 sm:px-6"
-          >
-            <div className="mx-auto max-w-6xl">
-              <h2 id="attrs-heading" className="spellcast text-center text-2xl sm:text-3xl">
-                Six disciplines
-              </h2>
-              <p className="mx-auto mt-3 max-w-xl text-center text-muted">
-                Each quest names what it trains. Complete enough of them and your character sheet
-                stops being aspirational and starts being a record.
-              </p>
-
-              <ul className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                {ATTRIBUTES.map((attribute, i) => (
-                  <Tilt3D
-                    as="li"
-                    key={attribute.id}
-                    max={9}
-                    lift={-5}
-                    surface="glass"
-                    className="rise flex items-start gap-3.5 p-4"
-                    style={{ '--rise-delay': `${(i % 3) * 60}ms` }}
-                  >
-                    <span
-                      aria-hidden="true"
-                      className="pop-2 grid h-11 w-11 shrink-0 place-items-center rounded-xl text-lg"
-                      style={{
-                        color: attrColor(attribute.id),
-                        background: `color-mix(in srgb, ${attrColor(attribute.id)} 14%, transparent)`,
-                        boxShadow: `0 0 24px -6px ${attrColor(attribute.id)}`,
-                      }}
-                    >
-                      {attribute.glyph}
-                    </span>
-                    <div className="min-w-0">
-                      <h3 className="pop-1 text-sm font-semibold text-ink">{attribute.name}</h3>
-                      <p className="mt-1 text-xs leading-relaxed text-muted">{attribute.blurb}</p>
-                    </div>
-                  </Tilt3D>
-                ))}
-              </ul>
-            </div>
-          </section>
-
           {/* ------------------------------- CTA ----------------------------- */}
           <section className="stage bg-void px-4 pb-24 sm:px-6">
             <Tilt3D
               max={4}
               lift={-6}
               surface="glass"
-              className="mx-auto max-w-3xl px-6 py-14 text-center"
+              className="relative mx-auto max-w-4xl overflow-hidden px-8 py-16 text-center sm:px-12 sm:py-20"
             >
-              <h2 className="spellcast pop-2 text-2xl sm:text-3xl">The Sorting Hat is waiting</h2>
-              <p className="pop-1 mx-auto mt-3 max-w-md text-muted">
-                Level one costs fifty-five experience — about two real things done today. You could
-                be level two before your tea goes cold.
-              </p>
-              <Link to="/enter" className="btn-primary pop-2 mt-8 px-6 py-3 text-base">
-                Begin
-              </Link>
+              <div
+                className="pointer-events-none absolute inset-0 bg-cover bg-center opacity-15 mix-blend-luminosity"
+                style={{ backgroundImage: "url('/media/hogwarts-crest-wood.png')" }}
+                aria-hidden="true"
+              />
+              <div className="relative z-10">
+                <h2 className="spellcast pop-2 text-2xl sm:text-3xl lg:text-4xl">The Sorting Hat is waiting</h2>
+                <p className="pop-1 mx-auto mt-4 max-w-lg text-sm text-muted sm:text-base">
+                  Level one costs fifty-five experience — about two real things done today. You could
+                  be level two before your tea goes cold.
+                </p>
+                <Link to="/enter" className="btn-primary pop-2 mt-8 inline-block px-8 py-3.5 text-base shadow-lg shadow-amber-950/30">
+                  Begin
+                </Link>
+              </div>
             </Tilt3D>
           </section>
         </main>

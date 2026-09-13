@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 
-import { useCalm, useFinePointer, useLowData, useTallViewport } from '../hooks/useAmbience';
+import { useCalm, useFinePointer, useLowData } from '../hooks/useAmbience';
 
 /* -------------------------------------------------------------------------- */
 /* Cuts                                                                       */
@@ -118,14 +118,18 @@ export function CinemaBackdrop({ variant = 'veil', candles = false }) {
   const calm = useCalm();
   const lowData = useLowData();
   const fine = useFinePointer();
-  const tall = useTallViewport();
   const wrapRef = useRef(null);
   const videoRef = useRef(null);
   const [ready, setReady] = useState(false);
 
-  // A phone in portrait gets the 9:16 cut of the hero; the veil is blurred
-  // past the point where its aspect ratio matters.
-  const cut = CUTS[variant === 'wide' && tall ? 'portrait' : variant];
+  // Always the requested cut, cropped by `object-fit: cover`.
+  //
+  // Phones used to get the 9:16 blur-padded cut. That was right when the film
+  // was a faint wash behind content, but as a full-bleed hero its padded top
+  // and bottom thirds read as two black bands with a letterboxed strip of
+  // castle between them. Cropping the landscape fills the screen with actual
+  // picture instead, which is what a full-bleed video wants.
+  const cut = CUTS[variant];
   const playFilm = !calm && !lowData;
 
   useParallax(wrapRef, !calm && fine);
@@ -171,7 +175,15 @@ export function CinemaBackdrop({ variant = 'veil', candles = false }) {
             browser that could not decode either file — or a headless one that
             never paints video at all — showed a black page instead of a
             castle. The poster is 29KB; a guaranteed backdrop is worth it. */}
-        <img className="cinema__plate" src={cut.poster} alt="" />
+        <img
+          className="cinema__plate"
+          // Dropped from the tree once the film has a frame up. It is fully
+          // covered at that point, and leaving it in means the compositor
+          // blends two viewport-sized layers on every frame for nothing.
+          data-covered={playFilm && ready ? 'true' : 'false'}
+          src={cut.poster}
+          alt=""
+        />
 
         {playFilm ? (
           <video

@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 
-import { useCalm, useFinePointer } from '../hooks/useAmbience';
+import { useCalm, useFinePointer, useLightMode } from '../hooks/useAmbience';
 
 /**
  * The painted Hogwarts plate behind the front page.
@@ -41,6 +41,11 @@ export function DayPlate({ still = false }) {
   // say where you are, not to be looked at, so it does not track the
   // pointer and does not carry dust.
   const live = !calm && fine && !still;
+
+  // Two paintings by the same hand: the castle at dusk for dark, the village
+  // downstream at golden hour for light.
+  const light = useLightMode();
+  const art = light ? 'hogsmeade' : 'hogwarts-day';
 
   useEffect(() => {
     const node = worldRef.current;
@@ -86,20 +91,20 @@ export function DayPlate({ still = false }) {
             <source
               media="(max-aspect-ratio: 10/9)"
               type="image/webp"
-              srcSet="/media/hogwarts-day-portrait.webp"
+              srcSet={`/media/${art}-portrait.webp`}
             />
-            <source
-              media="(max-aspect-ratio: 10/9)"
-              srcSet="/media/hogwarts-day-portrait.jpg"
-            />
+            <source media="(max-aspect-ratio: 10/9)" srcSet={`/media/${art}-portrait.jpg`} />
             <source
               type="image/webp"
-              srcSet="/media/hogwarts-day-1000.webp 1000w, /media/hogwarts-day-1600.webp 1600w"
+              srcSet={`/media/${art}-1000.webp 1000w, /media/${art}-1600.webp 1600w`}
               sizes="100vw"
             />
             <img
-              src="/media/hogwarts-day-1600.jpg"
-              srcSet="/media/hogwarts-day-1000.jpg 1000w, /media/hogwarts-day-1600.jpg 1600w"
+              // Keyed so React swaps the element rather than mutating srcSet on
+              // the live one, which leaves the old frame up until the new decode.
+              key={art}
+              src={`/media/${art}-1600.jpg`}
+              srcSet={`/media/${art}-1000.jpg 1000w, /media/${art}-1600.jpg 1600w`}
               sizes="100vw"
               alt=""
               // The front page's largest paint: never lazy, and decoded off
